@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:csRenamer"
         mc:Ignorable="d"
-        Title="csRenamer" Height="600" Width="900">
+        Title="csRenamer" Height="600" Width="900" Background="{StaticResource Background}">
     <DockPanel>
 
         <!-- Status Bar -->
-        <StatusBar DockPanel.Dock="Bottom">
+        <StatusBar DockPanel.Dock="Bottom" Background="{StaticResource Background}">
             <StatusBarItem HorizontalContentAlignment="Stretch">
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
@@ -18,17 +18,17 @@
                         <ColumnDefinition Width="160"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,3">
                         <TextBlock Text="Directory: " FontWeight="Bold"/>
                         <TextBlock x:Name="directoryText" Text="C:\\Users\\You" />
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,3">
                         <TextBlock Text="Files: " FontWeight="Bold"/>
                         <TextBlock x:Name="filesText" Text="0" />
                     </StackPanel>
 
-                    <ProgressBar Grid.Column="2" x:Name="progressBar" Width="150" Height="14" Minimum="0" Maximum="100" IsIndeterminate="False"/>
+                    <ProgressBar Grid.Column="2" x:Name="progressBar" Width="150" Height="14" Minimum="0" Maximum="100" IsIndeterminate="False" Margin="0,0,0,3"/>
 
 
                 </Grid>
@@ -85,14 +85,14 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Button Margin="5,5,8,0" Content="O" Width="20" Height="20" HorizontalAlignment="Center" x:Name="optionsButton" Click="optionsButton_Click" />
+                <Button Margin="5,5,8,0" Content="{StaticResource OptionsIcon}" Width="20" Height="20" HorizontalAlignment="Center" Style="{StaticResource ToolButton}" x:Name="optionsButton" Click="optionsButton_Click" />
                 <Grid Margin="5,5,5,0" Visibility="Collapsed" x:Name="optionsTitle">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="170"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Options" FontWeight="Medium"/>
-                    <Button Content="X" Width="20" Height="20" HorizontalAlignment="Right" x:Name="closeOptionsButton" Click="closeOptionsButton_Click" />
+                    <Button Content="{StaticResource CloseIcon}" Width="20" Height="20" HorizontalAlignment="Right" Style="{StaticResource CloseButton}" x:Name="closeOptionsButton" Click="closeOptionsButton_Click" />
                 </Grid>
                 <StackPanel Grid.Row="1" Margin="5" Visibility="Collapsed" x:Name="optionsPanel">
                     <ComboBox Margin="0,0,0,10" Width="170">
@@ -123,13 +123,17 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel  Orientation="Vertical"  VerticalAlignment="Top">
-                        <Button Content="Preview" Margin="0,0,0,10" Width="75"/>
-                        <Button Content="Clear" Margin="0,0,0,10" Width="75"/>
-                        <Button Content="Rename" Margin="0,0,0,10" Width="75"/>
-                        <Button Content="Quit" Width="75"/>
+                        <Button Content="Preview" Margin="0,0,0,5" Style="{StaticResource ButtonWithText}" Tag="{StaticResource SearchIcon}" Width="90" Background="{StaticResource Button}"
+                                BorderBrush="{StaticResource ButtonBorder}"/>
+                        <Button Content="Clear" Margin="0,0,0,5" Style="{StaticResource ButtonWithText}" Tag="{StaticResource ClearIcon}" Width="90" Background="{StaticResource Button}"
+                                BorderBrush="{StaticResource ButtonBorder}"/>
+                        <Button Content="Rename" Margin="0,0,0,5" Style="{StaticResource ButtonWithText}" Tag="{StaticResource RenameIcon}" Width="90" Background="{StaticResource Button}"
+                                BorderBrush="{StaticResource ButtonBorder}"/>
+                        <Button Content="Quit" Style="{StaticResource ButtonWithText}" Tag="{StaticResource QuitIcon}"  Width="90" Background="{StaticResource Button}"
+                                BorderBrush="{StaticResource ButtonBorder}"/>
                     </StackPanel>
 
-                    <Button Grid.Row="1" Content="?" Width="20" Height="20" HorizontalAlignment="Right" x:Name="aboutButton" Margin="0,0,20,10" />
+                    <Button Grid.Row="1" Content="{StaticResource QuestionIcon}" Width="30" Height="30" HorizontalAlignment="Right" Style="{StaticResource QuestionButton}" x:Name="aboutButton" Margin="0,0,20,10" />
                 </Grid>
 
 
@@ -166,8 +170,10 @@
                                         </ComboBox.ToolTip>
                                         <ComboBoxItem IsSelected="True">{X}</ComboBoxItem>
                                     </ComboBox>
-                                    <Button Grid.Column="2" Content="S" Width="20" Height="20" VerticalAlignment="Center" />
-                                    <Button Grid.Column="3" Content="E" Width="20" Height="20" VerticalAlignment="Center" />
+                                    <Button Grid.Column="2" Content="{StaticResource SaveIcon}" Width="24" Height="24" Style="{StaticResource CloseButton}" VerticalAlignment="Center"
+                                            Background="{StaticResource Button}" BorderBrush="{StaticResource ButtonBorder}" />
+                                    <Button Grid.Column="3" Content="{StaticResource EditIcon}" Width="24" Height="24" Style="{StaticResource CloseButton}" VerticalAlignment="Center"
+                                            Background="{StaticResource Button}" BorderBrush="{StaticResource ButtonBorder}" />
                                 </Grid>
                                 <Grid  Margin="0,5" VerticalAlignment="Center">
                                     <Grid.ColumnDefinitions>
@@ -213,8 +219,10 @@
                                         </ComboBox.ToolTip>
                                         <ComboBoxItem IsSelected="True">{1}</ComboBoxItem>
                                     </ComboBox>
-                                    <Button Grid.Column="2" Content="S" Width="20" Height="20" VerticalAlignment="Center" />
-                                    <Button Grid.Column="3" Content="E" Width="20" Height="20" VerticalAlignment="Center" />
+                                    <Button Grid.Column="2" Content="{StaticResource SaveIcon}" Width="24" Height="24" Style="{StaticResource CloseButton}" VerticalAlignment="Center"
+        Background="{StaticResource Button}" BorderBrush="{StaticResource ButtonBorder}" />
+                                    <Button Grid.Column="3" Content="{StaticResource EditIcon}" Width="24" Height="24" Style="{StaticResource CloseButton}" VerticalAlignment="Center"
+        Background="{StaticResource Button}" BorderBrush="{StaticResource ButtonBorder}" />
                                 </Grid>
                                 <TextBlock Text="Put the mouse over the text fields to get help on which patterns you can use" Margin="0,5" FontStyle="Italic"/>
                             </StackPanel>
