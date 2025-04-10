@@ -20,8 +20,12 @@ namespace csRenamer
             var selected = treeView.SelectedItem as TreeViewItem;
             if (selected != null)
             {
+                progressBar.IsIndeterminate = true;
                 string selectedPath = selected.Tag.ToString();
-                
+                directoryText.Text = selectedPath;
+                renameGrid.ItemsSource = FileServices.GetFiles(selectedPath, 0, "*");
+                filesText.Text = renameGrid.Items.Count.ToString();
+                progressBar.IsIndeterminate = false;
             }
         }
 

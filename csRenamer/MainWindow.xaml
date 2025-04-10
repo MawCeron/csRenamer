@@ -55,7 +55,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Folder Browser" Margin="5,5,5,0" FontWeight="Medium"/>
-                <TreeView Grid.Row="1" Margin="5" x:Name="treeView">
+                <TreeView Grid.Row="1" Margin="5" x:Name="treeView" SelectedItemChanged="FolderTreeView_SelectedItemChanged">
                     <TreeView.Resources>
                         <Style TargetType="{x:Type TreeViewItem}">
                             <Setter Property="HeaderTemplate">
@@ -85,10 +85,10 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Rename Preview" Margin="5,5,5,0" FontWeight="Medium"/>
-                <DataGrid Grid.Row="1" AutoGenerateColumns="False" Margin="5">
+                <DataGrid Grid.Row="1" AutoGenerateColumns="False" Margin="5" x:Name="renameGrid" Style="{StaticResource DataGrid}" IsReadOnly="True">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Original File Name" Binding="{Binding OriginalName}" Width="*"/>
-                        <DataGridTextColumn Header="Renamed File Name" Binding="{Binding RenamedName}" Width="*"/>
+                        <DataGridTextColumn Header="Original File Name" Binding="{Binding FileName}" Width="*"/>
+                        <DataGridTextColumn Header="Renamed File Name" Binding="{Binding NewName}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
