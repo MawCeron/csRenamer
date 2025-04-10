@@ -18,12 +18,24 @@ namespace csRenamer
         private void FolderTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var selected = treeView.SelectedItem as TreeViewItem;
+            var mode = Int32.Parse(((ComboBoxItem)comboOptions.SelectedItem).Tag.ToString());
+            var pattern = textboxPattern.Text.Trim();
+            var recursively = checkboxRecursively.IsChecked == true;
+
             if (selected != null)
             {
                 progressBar.IsIndeterminate = true;
                 string selectedPath = selected.Tag.ToString();
                 directoryText.Text = selectedPath;
-                renameGrid.ItemsSource = FileServices.GetFiles(selectedPath, 0, "*");
+
+                FileServices.Files.Clear();
+                if (recursively)                    
+                    FileServices.Files = FileServices.GetFilesRecursively(selectedPath, mode, pattern);
+                else
+                    FileServices.Files = FileServices.GetFiles(selectedPath, mode, pattern);
+
+                renameGrid.ItemsSource = FileServices.Files;
+
                 filesText.Text = renameGrid.Items.Count.ToString();
                 progressBar.IsIndeterminate = false;
             }

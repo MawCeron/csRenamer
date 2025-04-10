@@ -20,7 +20,7 @@
 
                     <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,3">
                         <TextBlock Text="Directory: " FontWeight="Bold"/>
-                        <TextBlock x:Name="directoryText" Text="C:\\Users\\You" />
+                        <TextBlock x:Name="directoryText" Text="Select a folder" />
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,3">
@@ -109,16 +109,16 @@
                     <Button Content="{StaticResource CloseIcon}" Width="20" Height="20" HorizontalAlignment="Right" Style="{StaticResource CloseButton}" x:Name="closeOptionsButton" Click="closeOptionsButton_Click" />
                 </Grid>
                 <StackPanel Grid.Row="1" Margin="5" Visibility="Collapsed" x:Name="optionsPanel">
-                    <ComboBox Margin="0,0,0,10" Width="170">
-                        <ComboBoxItem Content="Files" IsSelected="True"/>
-                        <ComboBoxItem Content="Directories"/>
-                        <ComboBoxItem Content="Files and directories"/>
+                    <ComboBox Margin="0,0,0,10" Width="170" x:Name="comboOptions">
+                        <ComboBoxItem Content="Files" Tag="0" IsSelected="True"/>
+                        <ComboBoxItem Content="Directories" Tag="1"/>
+                        <ComboBoxItem Content="Files and directories" Tag="2"/>
                     </ComboBox>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                         <TextBlock Text="Selection pattern" />
-                        <TextBox Text="*"  Margin="5,0,0,0" Width="75" ToolTip="*&#x9;Select every visible file&#x0a;*.jpg&#x9;Select just files that end with the &quot;jpg&quot; extension&#x0a; &#x9;Select every file (including hidden ones)&#x0a;.*&#x9;Select files starting by &quot;.&quot;"/>
+                        <TextBox Text="*" x:Name="textboxPattern" Margin="5,0,0,0" Width="75" ToolTip="*&#x9;Select every visible file&#x0a;*.jpg&#x9;Select just files that end with the &quot;jpg&quot; extension&#x0a; &#x9;Select every file (including hidden ones)&#x0a;.*&#x9;Select files starting by &quot;.&quot;"/>
                     </StackPanel>
-                    <CheckBox Content="Add files recursively" Margin="0,0,0,10"/>
+                    <CheckBox Content="Add files recursively" Margin="0,0,0,10" x:Name="checkboxRecursively"/>
                     <CheckBox Content="Keep extensions" Margin="0,0,0,10"/>
                     <CheckBox Content="Preview automatically" Margin="0,0,0,10"/>
                 </StackPanel>
