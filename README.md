@@ -1,6 +1,10 @@
 # <img src="csRenamer.svg" alt="icon" width="50"/> csRenamer
 
-**csRenamer** is a Windows desktop application built with WPF and .NET 8.0, designed for batch renaming files with ease. Inspired by [pyRenamer](https://github.com/tfree87/pyRenamer), it provides a flexible and user-friendly graphical interface for renaming files using patterns, substitutions, insertions, deletions, and more — all with instant preview.
+**csRenamer** is a Windows desktop application built with WPF and .NET 8.0, designed for batch renaming files with ease. It provides a flexible and user-friendly graphical interface for renaming files using patterns, substitutions, insertions, deletions, and more — all with instant preview.
+
+This project is a C#/.NET 8.0 clone of [pyRenamer](https://github.com/tfree87/pyRenamer), recreated using Windows-native technology to bring the same powerful renaming functionality to the Windows ecosystem with a modern UI.
+
+![screenshot](Screenshot.png)
 
 ## Features
 
@@ -16,10 +20,6 @@ csRenamer will support the following features:
 - Remove duplicated characters or symbols
 - Manually rename individual files
 - Live preview of all filename changes before applying
-
-## pyRenamer Compatibility
-
-This project is a C#/.NET 8.0 clone of [pyRenamer](https://github.com/tfree87/pyRenamer), recreated using Windows-native technology to bring the same powerful renaming functionality to the Windows ecosystem with a modern UI.
 
 ## Requirements
 
