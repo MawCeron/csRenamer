@@ -5,63 +5,64 @@
     <DrawingImage x:Key="csRenamerIcon">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 V32 H32 V0 H0 Z">
-                <DrawingGroup.Transform>
-                    <TranslateTransform X="23.795108795166016" Y="0" />
-                </DrawingGroup.Transform>
-                <DrawingGroup Opacity="1" Transform="0.75,0,0,0.75,-1.6481624,-0.6243437">
-                    <GeometryDrawing Geometry="F1 M32,32z M0,0z M8,2L18,2 20,8 26,10 26,28C26,29.108,25.107998,30,23.999998,30L8,30C6.892,30,6,29.108,6,28L6,4C6,2.892,6.892,2,8,2z">
-                        <GeometryDrawing.Brush>
-                            <LinearGradientBrush StartPoint="1.6220242,0.033773441" EndPoint="4.7624664,4.2526746" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1" Transform="7.559055,0,0,7.559055,-8,0">
-                                <GradientStop Color="#FFFAFAFA" Offset="0" />
-                                <GradientStop Color="#FFC7CDD1" Offset="1" />
-                            </LinearGradientBrush>
-                        </GeometryDrawing.Brush>
-                    </GeometryDrawing>
-                    <GeometryDrawing Geometry="F1 M32,32z M0,0z M15.994773,10.057399L13.768257,18.043587 18.221289,18.043587z M14.719492,8.1967426L17.280508,8.1967426 22.057586,23.803259 19.872883,23.803259 18.723039,19.736993 13.256054,19.736993 12.127117,23.803259 9.9424135,23.803259z">
-                        <GeometryDrawing.Brush>
-                            <LinearGradientBrush StartPoint="16.126305,23.757973" EndPoint="16.126305,8.3544645" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1">
-                                <GradientStop Color="#FF000000" Offset="0" />
-                                <GradientStop Color="#FF424242" Offset="1" />
-                            </LinearGradientBrush>
-                        </GeometryDrawing.Brush>
-                    </GeometryDrawing>
-                    <GeometryDrawing Geometry="F1 M32,32z M0,0z M26,10L20,10C18.892,10,18,9.108,18,8L18,2z">
-                        <GeometryDrawing.Brush>
-                            <LinearGradientBrush StartPoint="3.7041669,0.92604166" EndPoint="5.0270834,0.92604166" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1" Transform="7.559055,0,0,7.559055,-10,-2">
-                                <GradientStop Color="#FF6B7C85" Offset="0" />
-                                <GradientStop Color="#FF92A0A7" Offset="1" />
-                            </LinearGradientBrush>
-                        </GeometryDrawing.Brush>
-                    </GeometryDrawing>
+                <DrawingGroup Opacity="1" Transform="1,0,0,1,-0.8168143,-0.6766968">
+                    <DrawingGroup Opacity="1" Transform="0.75,0,0,0.75,-1.6481624,1.3756563">
+                        <GeometryDrawing Geometry="F1 M32,32z M0,0z M8,2L18,2 20,8 26,10 26,28C26,29.108,25.107998,30,23.999998,30L8,30C6.892,30,6,29.108,6,28L6,4C6,2.892,6.892,2,8,2z">
+                            <GeometryDrawing.Brush>
+                                <LinearGradientBrush StartPoint="1.6220242,0.033773441" EndPoint="4.7624664,4.2526746" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1" Transform="7.559055,0,0,7.559055,-8,0">
+                                    <GradientStop Color="#FFFAFAFA" Offset="0" />
+                                    <GradientStop Color="#FFC7CDD1" Offset="1" />
+                                </LinearGradientBrush>
+                            </GeometryDrawing.Brush>
+                        </GeometryDrawing>
+                        <GeometryDrawing Geometry="F1 M32,32z M0,0z M15.994773,10.057399L13.768257,18.043587 18.221289,18.043587z M14.719492,8.1967426L17.280508,8.1967426 22.057586,23.803259 19.872883,23.803259 18.723039,19.736993 13.256054,19.736993 12.127117,23.803259 9.9424135,23.803259z">
+                            <GeometryDrawing.Brush>
+                                <LinearGradientBrush StartPoint="16.126305,23.757973" EndPoint="16.126305,8.3544645" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1">
+                                    <GradientStop Color="#FF000000" Offset="0" />
+                                    <GradientStop Color="#FF424242" Offset="1" />
+                                </LinearGradientBrush>
+                            </GeometryDrawing.Brush>
+                        </GeometryDrawing>
+                        <GeometryDrawing Geometry="F1 M32,32z M0,0z M26,10L20,10C18.892,10,18,9.108,18,8L18,2z">
+                            <GeometryDrawing.Brush>
+                                <LinearGradientBrush StartPoint="3.7041669,0.92604166" EndPoint="5.0270834,0.92604166" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1" Transform="7.559055,0,0,7.559055,-10,-2">
+                                    <GradientStop Color="#FF6B7C85" Offset="0" />
+                                    <GradientStop Color="#FF92A0A7" Offset="1" />
+                                </LinearGradientBrush>
+                            </GeometryDrawing.Brush>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup Opacity="1" Transform="1,0,0,1,0,-2">
+                        <GeometryDrawing Geometry="F1 M32,32z M0,0z M17.281791,10.320144L24.781791,10.320144 26.281791,14.820144 30.781791,16.320144 30.781791,29.820144C30.781791,30.651144,30.112789,31.320144,29.281789,31.320144L17.281791,31.320144C16.450791,31.320144,15.781791,30.651144,15.781791,29.820144L15.781791,11.820144C15.781791,10.989144,16.450791,10.320144,17.281791,10.320144z">
+                            <GeometryDrawing.Brush>
+                                <LinearGradientBrush StartPoint="1.6220242,0.033773441" EndPoint="4.7624664,4.2526746" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1" Transform="5.6692912,0,0,5.6692912,5.281791,8.8201436">
+                                    <GradientStop Color="#FFFAFAFA" Offset="0" />
+                                    <GradientStop Color="#FFC7CDD1" Offset="1" />
+                                </LinearGradientBrush>
+                            </GeometryDrawing.Brush>
+                        </GeometryDrawing>
+                        <GeometryDrawing Geometry="F1 M32,32z M0,0z M21.067035,20.769185L21.067035,25.371173 22.940758,25.371173Q24.32057,25.371173 24.908559,24.892942 25.496547,24.406872 25.496547,23.301454 25.496547,21.843243 24.877199,21.310133 24.257852,20.769184 22.940758,20.769184z M21.067035,16.269114L21.067035,19.48345 22.909399,19.48345Q24.054016,19.48345 24.563606,19.044419 25.081036,18.605387 25.081036,17.939 25.081036,17.053098 24.571445,16.661106 24.069694,16.269114 22.909399,16.269114z M19.475546,14.967701L22.940757,14.967701Q24.736081,14.967701 25.708223,15.743845 26.680364,16.519988 26.680364,17.939001 26.680364,18.699466 26.162933,19.318813 25.653344,19.938161 24.626324,20.094958 25.778781,20.267434 26.429489,21.082778 27.088035,21.890283 27.088035,23.45825 27.088035,25.049739 26.045335,25.865083 25.002637,26.672587 22.940757,26.672587L19.475546,26.672587z">
+                            <GeometryDrawing.Brush>
+                                <LinearGradientBrush StartPoint="-15.17864,9.4444866" EndPoint="-15.403509,22.936611" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1" Transform="0.75,0,0,0.75,33.353727,8.8201431">
+                                    <GradientStop Color="#FF2D2D2D" Offset="0" />
+                                    <GradientStop Color="#FF000000" Offset="1" />
+                                </LinearGradientBrush>
+                            </GeometryDrawing.Brush>
+                        </GeometryDrawing>
+                        <GeometryDrawing Geometry="F1 M32,32z M0,0z M30.781791,16.320144L26.281791,16.320144C25.450791,16.320144,24.781791,15.651144,24.781791,14.820144L24.781791,10.320144z">
+                            <GeometryDrawing.Brush>
+                                <LinearGradientBrush StartPoint="3.7041669,0.92604166" EndPoint="5.0270834,0.92604166" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1" Transform="5.6692912,0,0,5.6692912,3.781791,7.3201436">
+                                    <GradientStop Color="#FF6B7C85" Offset="0" />
+                                    <GradientStop Color="#FF92A0A7" Offset="1" />
+                                </LinearGradientBrush>
+                            </GeometryDrawing.Brush>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup Opacity="1" Transform="1,0,0,1,-3.035728,1.9113843">
+                        <GeometryDrawing Brush="#FF3E2C5C" Geometry="F1 M32,32z M0,0z M9.9536952,17.035672L11.97937,13.308929 17.48591,16.00378 14.753015,21.240503 12.993335,25.086468 9.97897,18.695978C9.6154429,17.920587,9.7547109,17.390068,9.9535243,17.035672z" />
+                        <GeometryDrawing Brush="#FF7150A8" Geometry="F1 M32,32z M0,0z M10.609185,20.027856L22.084452,20.017666 22.065122,17.489845 27.583134,22.929464 22.070862,28.566353 22.097252,26.052621 14.540228,26.052621C13.891298,26.046921,13.357059,25.709869,12.993334,25.086307z" />
+                    </DrawingGroup>
                 </DrawingGroup>
-                <GeometryDrawing Brush="#FF3E2C5C" Geometry="F1 M32,32z M0,0z M9.9536952,17.035672L11.97937,13.308929 17.48591,16.00378 14.753015,21.240503 12.993335,25.086468 9.97897,18.695978C9.6154429,17.920587,9.7547109,17.390068,9.9535243,17.035672z" />
-                <DrawingGroup Opacity="1" Transform="0.75,0,0,0.75,33.628122,8.8201436">
-                    <GeometryDrawing Geometry="F1 M32,32z M0,0z M-21.795108,2L-11.795108,2 -9.7951081,8 -3.7951081,10 -3.7951081,28C-3.7951081,29.108,-4.6871101,30,-5.7951101,30L-21.795108,30C-22.903108,30,-23.795108,29.108,-23.795108,28L-23.795108,4C-23.795108,2.892,-22.903108,2,-21.795108,2z">
-                        <GeometryDrawing.Brush>
-                            <LinearGradientBrush StartPoint="1.6220242,0.033773441" EndPoint="4.7624664,4.2526746" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1" Transform="7.559055,0,0,7.559055,-37.795108,0">
-                                <GradientStop Color="#FFFAFAFA" Offset="0" />
-                                <GradientStop Color="#FFC7CDD1" Offset="1" />
-                            </LinearGradientBrush>
-                        </GeometryDrawing.Brush>
-                    </GeometryDrawing>
-                    <GeometryDrawing Geometry="F1 M32,32z M0,0z M-16.382257,15.932055L-16.382257,22.06804 -13.88396,22.06804Q-12.04421,22.06804 -11.260225,21.430399 -10.476241,20.782306 -10.476241,19.308415 -10.476241,17.364134 -11.302038,16.653321 -12.127835,15.932055 -13.88396,15.932055z M-16.382257,9.9319614L-16.382257,14.217743 -13.925772,14.217743Q-12.399616,14.217743 -11.720163,13.632368 -11.030256,13.046993 -11.030256,12.158477 -11.030256,10.977274 -11.70971,10.454618 -12.37871,9.9319614 -13.925772,9.9319614z M-18.504241,8.1967426L-13.88396,8.1967426Q-11.490194,8.1967426 -10.194006,9.231602 -8.8978189,10.266461 -8.8978189,12.158477 -8.8978189,13.17243 -9.5877251,13.998227 -10.267178,14.824024 -11.636538,15.033087 -10.099928,15.263055 -9.2323189,16.35018 -8.3542563,17.426852 -8.3542563,19.517477 -8.3542563,21.639462 -9.744522,22.726587 -11.134788,23.803259 -13.88396,23.803259L-18.504241,23.803259z">
-                        <GeometryDrawing.Brush>
-                            <LinearGradientBrush StartPoint="-15.17864,9.4444866" EndPoint="-15.403509,22.936611" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1">
-                                <GradientStop Color="#FF2D2D2D" Offset="0" />
-                                <GradientStop Color="#FF000000" Offset="1" />
-                            </LinearGradientBrush>
-                        </GeometryDrawing.Brush>
-                    </GeometryDrawing>
-                    <GeometryDrawing Geometry="F1 M32,32z M0,0z M-3.7951081,10L-9.7951081,10C-10.903108,10,-11.795108,9.108,-11.795108,8L-11.795108,2z">
-                        <GeometryDrawing.Brush>
-                            <LinearGradientBrush StartPoint="3.7041669,0.92604166" EndPoint="5.0270834,0.92604166" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1" Transform="7.559055,0,0,7.559055,-39.795108,-2">
-                                <GradientStop Color="#FF6B7C85" Offset="0" />
-                                <GradientStop Color="#FF92A0A7" Offset="1" />
-                            </LinearGradientBrush>
-                        </GeometryDrawing.Brush>
-                    </GeometryDrawing>
-                </DrawingGroup>
-                <GeometryDrawing Brush="#FF7150A8" Geometry="F1 M32,32z M0,0z M10.609185,20.027856L18.374118,20.017666 18.354788,17.489845 23.8728,22.929464 18.360528,28.566353 18.386918,26.052621 14.540228,26.052621C13.891298,26.046921,13.357059,25.709869,12.993334,25.086307z" />
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
