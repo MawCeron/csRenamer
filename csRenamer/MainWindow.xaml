@@ -138,11 +138,11 @@
 
                     <StackPanel  Orientation="Vertical"  VerticalAlignment="Top">
                         <Button Content="Preview" Margin="0,0,0,5" Style="{StaticResource ButtonWithText}" Tag="{StaticResource SearchIcon}" Width="90" Background="{StaticResource Button}"
-                                BorderBrush="{StaticResource ButtonBorder}"/>
+                                BorderBrush="{StaticResource ButtonBorder}" x:Name="previewButton" Click="previewButton_Click"/>
                         <Button Content="Clear" Margin="0,0,0,5" Style="{StaticResource ButtonWithText}" Tag="{StaticResource ClearIcon}" Width="90" Background="{StaticResource Button}"
-                                BorderBrush="{StaticResource ButtonBorder}"/>
+                                BorderBrush="{StaticResource ButtonBorder}" x:Name="clearButton"/>
                         <Button Content="Rename" Margin="0,0,0,5" Style="{StaticResource ButtonWithText}" Tag="{StaticResource RenameIcon}" Width="90" Background="{StaticResource Button}"
-                                BorderBrush="{StaticResource ButtonBorder}"/>
+                                BorderBrush="{StaticResource ButtonBorder}" x:Name="renameButton"/>
                         <Button Content="Quit" Style="{StaticResource ButtonWithText}" Tag="{StaticResource QuitIcon}"  Width="90" Background="{StaticResource Button}"
                                 BorderBrush="{StaticResource ButtonBorder}" x:Name="quitButton" Click="quitButton_Click"/>
                     </StackPanel>
@@ -152,8 +152,8 @@
 
 
                 <!-- Tab Control for rename options -->
-                <TabControl Grid.Column="0" Margin="5">
-                    <TabItem Header="Patterns">
+                <TabControl Grid.Column="0" Margin="5" x:Name="renameOptions">
+                    <TabItem Header="Patterns" Tag="0">
                         <Grid Margin="10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -170,15 +170,15 @@
                                         <ColumnDefinition Width="30"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="Original file name pattern"/>
-                                    <ComboBox IsEditable="True" Grid.Column="1" Margin="10,0,10,0" Height="24">
+                                    <ComboBox IsEditable="True" Grid.Column="1" Margin="10,0,10,0" Height="24" x:Name="originalPattern">
                                         <ComboBox.ToolTip>
                                             <ToolTip>
                                                 <TextBlock>
-                                                    {#}    Numbers <LineBreak/>
-                                                    {L}    Letters<LineBreak/>
-                                                    {C}    Characters (numbers and letters, not spaces)<LineBreak/>
-                                                    {X}    Numbers, letters, and spaces<LineBreak/>
-                                                    {@}    Trash
+                                                    <Run FontWeight="Bold">{#}</Run> – digits (0-9)<LineBreak/>
+                                                    <Run FontWeight="Bold">{L}</Run> – letters (A-Z, a-z)<LineBreak/>
+                                                    <Run FontWeight="Bold">{C}</Run> – any non-space character (letters/numbers/symbols)<LineBreak/>
+                                                    <Run FontWeight="Bold">{X}</Run> – any character including spaces<LineBreak/>
+                                                    <Run FontWeight="Bold">{@}</Run> – match anything (wildcard)<LineBreak/>
                                                 </TextBlock>
                                             </ToolTip>
                                         </ComboBox.ToolTip>
@@ -197,37 +197,40 @@
                                         <ColumnDefinition Width="30"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="Renamed file name pattern"/>
-                                    <ComboBox IsEditable="True" Grid.Column="1" Margin="10,0,10,0" Height="24">
+                                    <ComboBox IsEditable="True" Grid.Column="1" Margin="10,0,10,0" Height="24" x:Name="renamedPattern">
                                         <ComboBox.ToolTip>
                                             <ToolTip>
                                                 <TextBlock>
-                                                    Use {1} for first catched item. {2} for second, etc...<LineBreak/>
-                                                    Use {num} for adding 1, 2, 3... to file names<LineBreak/>
-                                                    Use {num2} for 01, 02, 03.....<LineBreak/>
-                                                    Use {num3} for 001, 002, 003...<LineBreak/>
-                                                    Use {num+10} for 10, 11, 12...<LineBreak/>
-                                                    Use {num2+10} for 010, 011, 012...<LineBreak/>
-                                                    Use {dir} for getting current dir<LineBreak/>
-<LineBreak/>
-                                                    <Bold>Some today date replacements:</Bold><LineBreak/>
-                                                    {date}			19800222<LineBreak/>
-                                                    {datedelim}		1980-02-22<LineBreak/>
-                                                    {year}			1980<LineBreak/>
-                                                    {month}		    02<LineBreak/>
-                                                    {monthname}	    february<LineBreak/>
-                                                    {monthsimp}	    feb<LineBreak/>
-                                                    {day}			22<LineBreak/>
-                                                    {dayname}		friday<LineBreak/>
-                                                    {daysimp}		fri<LineBreak/>
-<LineBreak/>
-                                                    <Italic>* You can prefix these with 'create' or 'modify' to lookup the file attributes.</Italic><LineBreak/>
-<LineBreak/>
+                                                    <Bold>Pattern placeholders:</Bold><LineBreak/>
+                                                    Use <Run FontWeight="Bold">{1}</Run>, <Run FontWeight="Bold">{2}</Run>, etc., to insert captured parts from the input pattern.<LineBreak/>
+                                                    Use <Run FontWeight="Bold">{num}</Run> to add a number (e.g. 1, 2, 3...).<LineBreak/>
+                                                    Use <Run FontWeight="Bold">{num2}</Run> to zero-pad numbers to 2 digits (e.g. 01, 02, 03...).<LineBreak/>
+                                                    Use <Run FontWeight="Bold">{num3}</Run> to zero-pad to 3 digits (e.g. 001, 002, 003...).<LineBreak/>
+                                                    Use <Run FontWeight="Bold">{num+10}</Run> to start counting from 10 (e.g. 10, 11, 12...).<LineBreak/>
+                                                    Use <Run FontWeight="Bold">{num2+10}</Run> to start from 10 with padding (e.g. 010, 011, 012...).<LineBreak/>
+                                                    Use <Run FontWeight="Bold">{dir}</Run> to insert the current folder name.<LineBreak/>
+                                                <LineBreak/>
+                                                    <Bold>Today's date replacements:</Bold><LineBreak/>
+                                                    <Run FontWeight="Bold">{date}</Run>            → 20250414<LineBreak/>
+                                                    <Run FontWeight="Bold">{datedelim}</Run>       → 2025-04-14<LineBreak/>
+                                                    <Run FontWeight="Bold">{year}</Run>            → 2025<LineBreak/>
+                                                    <Run FontWeight="Bold">{month}</Run>           → 04<LineBreak/>
+                                                    <Run FontWeight="Bold">{monthname}</Run>       → April<LineBreak/>
+                                                    <Run FontWeight="Bold">{monthsimp}</Run>       → Apr<LineBreak/>
+                                                    <Run FontWeight="Bold">{day}</Run>             → 14<LineBreak/>
+                                                    <Run FontWeight="Bold">{dayname}</Run>         → Monday<LineBreak/>
+                                                    <Run FontWeight="Bold">{daysimp}</Run>         → Mon<LineBreak/>
+                                                <LineBreak/>
+                                                    <Italic>* You can prefix these with 'create' or 'modify' to use file metadata.</Italic><LineBreak/>
+                                                    Example: <Run FontStyle="Italic">{createdate}</Run>, <Run FontStyle="Italic">{modifyyear}</Run><LineBreak/>
+                                                <LineBreak/>
                                                     <Bold>Random number replacements:</Bold><LineBreak/>
-                                                    {rand} is random number between 0 and 100.<LineBreak/>
-                                                    {rand,3} is random number between 0 and 100 of 3 digits (012)<LineBreak/>
-                                                    {rand500} is random number between 0 and 500<LineBreak/>
-                                                    {rand10-20} is random number between 10 and 20<LineBreak/>
-                                                    {rand20,5} is random number between 0 and 20 of 5 digits (00012)
+                                                    <Run FontWeight="Bold">{rand}</Run>                  → random number (0–100)<LineBreak/>
+                                                    <Run FontWeight="Bold">{rand500}</Run>               → random number (0–500)<LineBreak/>
+                                                    <Run FontWeight="Bold">{rand10-20}</Run>             → random number between 10–20<LineBreak/>
+                                                    <Run FontWeight="Bold">{rand,3}</Run>                → 3-digit padded random (e.g. 012)<LineBreak/>
+                                                    <Run FontWeight="Bold">{rand20,5}</Run>              → random 0–20 padded to 5 digits (e.g. 00012)<LineBreak/>
+                                                    <Run FontWeight="Bold">{rand10-20,4}</Run>           → random 10–20 padded to 4 digits (e.g. 0015)<LineBreak/>  
                                                 </TextBlock>
                                             </ToolTip>
                                         </ComboBox.ToolTip>
@@ -238,11 +241,11 @@
                                     <Button Grid.Column="3" Content="{StaticResource EditIcon}" Width="24" Height="24" Style="{StaticResource CloseButton}" VerticalAlignment="Center"
         Background="{StaticResource Button}" BorderBrush="{StaticResource ButtonBorder}" />
                                 </Grid>
-                                <TextBlock Text="Put the mouse over the text fields to get help on which patterns you can use" Margin="0,5" FontStyle="Italic"/>                                
+                                <TextBlock Text="Put the mouse over the text fields to get help on which patterns you can use" Margin="0,5" FontStyle="Italic"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Substitutions">
+                    <TabItem Header="Substitutions" Tag="1">
                         <Grid Margin="10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -292,7 +295,7 @@
                             </StackPanel>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Insert / Delete">
+                    <TabItem Header="Insert / Delete" Tag="2">
                         <Grid Margin="10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -347,7 +350,7 @@
                             </StackPanel>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Manual rename">
+                    <TabItem Header="Manual rename" Tag="3">
                         <Grid Margin="10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>

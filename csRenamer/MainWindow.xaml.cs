@@ -15,6 +15,13 @@ namespace csRenamer
             FolderExplorer.LoadDrives(treeView);
         }
 
+        private void RefreshGrid()
+        {
+            // Refresh the grid by reassigning the ItemsSource
+            renameGrid.ItemsSource = null; // Clear the current binding
+            renameGrid.ItemsSource = FileServices.Files; // Rebind to the updated collection
+        }
+
         private void FolderTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var selected = treeView.SelectedItem as TreeViewItem;
@@ -34,7 +41,7 @@ namespace csRenamer
                 else
                     FileServices.Files = FileServices.GetFiles(selectedPath, mode, pattern);
 
-                renameGrid.ItemsSource = FileServices.Files;
+                RefreshGrid();
 
                 filesText.Text = renameGrid.Items.Count.ToString();
                 progressBar.IsIndeterminate = false;
@@ -58,6 +65,35 @@ namespace csRenamer
         private void quitButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void previewButton_Click(object sender, RoutedEventArgs e)
+        {
+            progressBar.IsIndeterminate = true;
+            var option = renameOptions.SelectedItem as TabItem;            
+            switch (option.Tag)
+            {
+                case "0":
+                    // Patterns
+                    foreach (var file in FileServices.Files)
+                    {
+                        string newName = PatternRenamer.RenameUsingPatterns(file.FileName, file.FullPath, originalPattern.Text, renamedPattern.Text, 0);
+                        file.NewName = newName;
+                    }
+                    break;
+                case "1":
+                    // Subtitutions
+                    break;
+                case "2":
+                    // Insert and Delete
+                    break;
+                case "3":
+                    // Manual rename
+                    break;
+            }
+
+            RefreshGrid();
+            progressBar.IsIndeterminate = false;            
         }
     }
 }
