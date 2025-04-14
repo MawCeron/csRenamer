@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using csRenamer.Services;
 
@@ -77,7 +78,9 @@ namespace csRenamer
                     // Patterns
                     foreach (var file in FileServices.Files)
                     {
-                        string newName = PatternRenamer.RenameUsingPatterns(file.FileName, file.FullPath, originalPattern.Text, renamedPattern.Text, 0);
+                        string newName = PatternRenamer.RenameUsingPatterns(file.FileName, file.FullPath, originalPattern.Text, renamedPattern.Text, 0,
+                            keepExtensionCheckbox.IsChecked == true ? Path.GetExtension(file.FullPath).TrimStart('.') : "");
+
                         file.NewName = newName;
                     }
                     break;

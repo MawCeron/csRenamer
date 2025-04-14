@@ -119,7 +119,7 @@
                         <TextBox Text="*" x:Name="textboxPattern" Margin="5,0,0,0" Width="75" ToolTip="*&#x9;Select every visible file&#x0a;*.jpg&#x9;Select just files that end with the &quot;jpg&quot; extension&#x0a; &#x9;Select every file (including hidden ones)&#x0a;.*&#x9;Select files starting by &quot;.&quot;"/>
                     </StackPanel>
                     <CheckBox Content="Add files recursively" Margin="0,0,0,10" x:Name="checkboxRecursively"/>
-                    <CheckBox Content="Keep extensions" Margin="0,0,0,10"/>
+                    <CheckBox Content="Keep extensions" Margin="0,0,0,10" x:Name="keepExtensionCheckbox"/>
                     <CheckBox Content="Preview automatically" Margin="0,0,0,10"/>
                 </StackPanel>
             </Grid>
