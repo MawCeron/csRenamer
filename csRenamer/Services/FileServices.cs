@@ -12,7 +12,7 @@ namespace csRenamer.Services
         }
 
         public static List<FileItem> Files = new List<FileItem>(); // Static list to store FileItem objects
-        public static List<FileItem> GetFiles(string dir, int mode, string pattern)
+        public static List<FileItem> GetFiles(string dir, int mode, string pattern, CancellationToken token)
         {
             List<FileItem> files = new List<FileItem>(); // List to store FileItem objects
 
@@ -29,6 +29,7 @@ namespace csRenamer.Services
             // Iterate through the entries and process based on mode
             foreach (string element in auxiliary)
             {
+                token.ThrowIfCancellationRequested(); // Check for cancellation
                 FileAttributes attributes = File.GetAttributes(element);
                 bool isHidden = (attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
@@ -79,7 +80,7 @@ namespace csRenamer.Services
             return files;
         }
 
-        public static List<FileItem> GetFilesRecursively(string dir, int mode, string pattern)
+        public static List<FileItem> GetFilesRecursively(string dir, int mode, string pattern, CancellationToken token)
         {
             List<FileItem> files = new List<FileItem>(); // List to store FileItem objects
 
@@ -96,6 +97,7 @@ namespace csRenamer.Services
             // Iterate through the entries and process based on mode
             foreach (string element in auxiliary)
             {
+                token.ThrowIfCancellationRequested(); // Check for cancellation
                 FileAttributes attributes = File.GetAttributes(element);
                 bool isHidden = (attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
