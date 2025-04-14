@@ -54,5 +54,10 @@ namespace csRenamer
             optionsTitle.Visibility = Visibility.Collapsed;
             optionsPanel.Visibility = Visibility.Collapsed;
         }
+
+        private void quitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
