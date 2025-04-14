@@ -8,7 +8,19 @@ namespace csRenamer.Services
     {
         public static string RenameUsingPatterns(string originalName, string originalPath, string patternIni, string patternOut, int count, string extension = "")
         {
-            // 1. Prepare regular expressions from the initial pattern
+            string nameOnly = originalName;
+            string ext = string.Empty;
+
+            if (!string.IsNullOrEmpty(extension))
+            {
+                // Elimina la extensión del nombre original si existe y coincide con la extensión pasada
+                if (originalName.EndsWith("." + extension, StringComparison.OrdinalIgnoreCase))
+                {
+                    nameOnly = Path.GetFileNameWithoutExtension(originalName);
+                    ext = "." + extension;
+                }
+            }
+
             string intermediateName = ReplaceRegexGroups(originalName, patternIni, patternOut);
 
             if(string.IsNullOrEmpty(intermediateName))
@@ -18,9 +30,9 @@ namespace csRenamer.Services
             intermediateName = ReplaceDatePlaceHolders(intermediateName);
             intermediateName = ReplaceDirectoyPlaceHolders(intermediateName, originalPath);
             intermediateName = ReplaceRandomPlaceHolders(intermediateName);
-            intermediateName = ReplaceFileMetadataPlaceholders(intermediateName, originalName, originalPath, extension);
+            intermediateName = ReplaceFileMetadataPlaceholders(intermediateName, originalName, originalPath);
 
-            return intermediateName;
+            return intermediateName + ext;
         }
 
         private static string ReplaceRegexGroups(string originalName, string pattern, string target)
@@ -121,14 +133,10 @@ namespace csRenamer.Services
             });
         }
 
-        private static string ReplaceFileMetadataPlaceholders(string input, string name, string path, string ext)
+        private static string ReplaceFileMetadataPlaceholders(string input, string name, string path)
         {
-            string fullPath = Path.Combine(Path.GetDirectoryName(path)!, string.IsNullOrEmpty(ext) ? name : $"{name}.{ext}");
-            if (!File.Exists(fullPath))
-                return input;
-
-            DateTime created = File.GetCreationTime(fullPath);
-            DateTime modified = File.GetLastWriteTime(fullPath);
+            DateTime created = File.GetCreationTime(path);
+            DateTime modified = File.GetLastWriteTime(path);
 
             return input
                 // Created
