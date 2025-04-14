@@ -178,4 +178,14 @@
         </Setter>
     </Style>
     
+    <!-- Disabled combo box -->
+    <Style TargetType="ComboBox" x:Key="DisabledComboBoxStyle">
+        <Setter Property="Foreground" Value="{StaticResource MainText}"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource SecondaryText}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
 </ResourceDictionary>

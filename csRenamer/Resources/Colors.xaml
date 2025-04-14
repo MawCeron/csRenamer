@@ -8,6 +8,6 @@
     <SolidColorBrush x:Key="ButtonPressed" Color="#f0ebf1" />
 
     <!-- Text Colors -->
-    <SolidColorBrush x:Key="MainText" Color="#1F1F1F" />
-    <SolidColorBrush x:Key="SecondaryText" Color="#4F4F4F" />
+    <SolidColorBrush x:Key="MainText" Color="#1f1f1f" />
+    <SolidColorBrush x:Key="SecondaryText" Color="#c3c3c3" />
 </ResourceDictionary>

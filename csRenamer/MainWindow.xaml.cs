@@ -111,6 +111,30 @@ namespace csRenamer
                     break;
                 case "1":
                     // Subtitutions
+                    foreach (var file in FileServices.Files)
+                    {
+                        string name = keepExtensionCheckbox.IsChecked == true ? Path.GetFileNameWithoutExtension(file.FileName) : file.FileName;
+                        string extension = keepExtensionCheckbox.IsChecked == true ? Path.GetExtension(file.FileName) : "";
+
+                        string newName = name;
+
+                        if (spacesCheck.IsChecked == true)
+                            newName = SubstitutionsRenamer.ReplaceSpaces(newName, spacesCombo.SelectedIndex);
+
+                        if (replaceCheck.IsChecked == true)
+                            newName = SubstitutionsRenamer.ReplaceWith(newName, replaceText.Text, replaceWithText.Text);
+
+                        if (capitalizationCheck.IsChecked == true)
+                            newName = SubstitutionsRenamer.ReplaceCapitalization(newName, capitalizationCombo.SelectedIndex);
+
+                        if (accentsCheck.IsChecked == true)
+                            newName = SubstitutionsRenamer.RemoveAccents(newName);
+
+                        if (duplicatesCheck.IsChecked == true)
+                            newName = SubstitutionsRenamer.RemoveDuplicatedSymbols(newName);
+
+                        file.NewName = newName + extension;
+                    }
                     break;
                 case "2":
                     // Insert and Delete

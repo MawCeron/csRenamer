@@ -270,26 +270,27 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <CheckBox Grid.Column="0" Grid.Row="0" Content="Spaces" Margin="5"/>
-                                    <CheckBox Grid.Column="0" Grid.Row="1" Content="Replace" Margin="5"/>
-                                    <CheckBox Grid.Column="0" Grid.Row="2" Content="Capitalization" Margin="5"/>
-                                    <CheckBox Grid.Column="0" Grid.Row="3" Content="Remove accents" Margin="5"/>
-                                    <CheckBox Grid.Column="1" Grid.Row="3" Content="Fix duplicated symbols" Margin="11,5,5,5"/>
-                                    <ComboBox Grid.Column="1" Grid.Row="0" Margin="11,5,5,5">
-                                        <ComboBoxItem Content="Spaces to Underscores"/>
+                                    <CheckBox Grid.Column="0" Grid.Row="0" Content="Spaces" Margin="5" x:Name="spacesCheck"/>
+                                    <CheckBox Grid.Column="0" Grid.Row="1" Content="Replace" Margin="5" ToolTip="Replace every instance of the original text with the new one." x:Name="replaceCheck"/>
+                                    <CheckBox Grid.Column="0" Grid.Row="2" Content="Capitalization" Margin="5" x:Name="capitalizationCheck"/>
+                                    <CheckBox Grid.Column="0" Grid.Row="3" Content="Remove accents" Margin="5" ToolTip="Normalize characters by removing accents and locale-specific marks (e.g., á → a, ü → u, č → c)." x:Name="accentsCheck"/>
+                                    <CheckBox Grid.Column="1" Grid.Row="3" Content="Fix duplicated symbols" Margin="11,5,5,5" ToolTip="Removes consecutive duplicate symbols, keeping only one (e.g., '---' becomes '-')." x:Name="duplicatesCheck"/>
+                                    <ComboBox Grid.Column="1" Grid.Row="0" Margin="11,5,5,5" x:Name="spacesCombo" IsEnabled="{Binding IsChecked, ElementName=spacesCheck}" Style="{StaticResource DisabledComboBoxStyle}">
+                                        <ComboBoxItem Content="Spaces to Underscores" IsSelected="True"/>
                                         <ComboBoxItem Content="Underscore to Spaces"/>
                                         <ComboBoxItem Content="Spaces to Dots"/>
                                         <ComboBoxItem Content="Dots to Spaces"/>
                                         <ComboBoxItem Content="Spaces to Dashes"/>
                                         <ComboBoxItem Content="Dashes to Spaces"/>
+                                        <ComboBoxItem Content="Remove spaces"/>
                                     </ComboBox>
-                                    <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="5">
-                                        <TextBox Width="100" Margin="5,0,0,0"/>
+                                    <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="5" x:Name="replacePanel" IsEnabled="{Binding IsChecked, ElementName=replaceCheck}">
+                                        <TextBox Width="100" Margin="5,0,0,0" x:Name="replaceText"/>
                                         <TextBlock Text="to" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <TextBox Width="100" Margin="5,0,0,0"/>
+                                        <TextBox Width="100" Margin="5,0,0,0" x:Name="replaceWithText"/>
                                     </StackPanel>
-                                    <ComboBox Grid.Column="1" Grid.Row="2" Margin="11,5,5,5">
-                                        <ComboBoxItem Content="All uppercase"/>
+                                    <ComboBox Grid.Column="1" Grid.Row="2" Margin="11,5,5,5" x:Name="capitalizationCombo" IsEnabled="{Binding IsChecked, ElementName=capitalizationCheck}" Style="{StaticResource DisabledComboBoxStyle}">
+                                        <ComboBoxItem Content="All uppercase" IsSelected="True"/>
                                         <ComboBoxItem Content="All downcase"/>
                                         <ComboBoxItem Content="First letter uppercase"/>
                                         <ComboBoxItem Content="First letter uppercase of each word"/>
