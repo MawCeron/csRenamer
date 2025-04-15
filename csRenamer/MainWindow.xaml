@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:csRenamer"
+        xmlns:controls="clr-namespace:csRenamer.Controls"
         mc:Ignorable="d"
         Title="csRenamer" Height="600" Width="900" Background="{StaticResource Background}" Icon="{StaticResource csRenamerIcon}">
     <DockPanel>
@@ -315,39 +316,47 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <Grid Margin="0,5">
+                                    <Grid Margin="0,5" Height="25" >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="75"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="75"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>                                            
                                         </Grid.ColumnDefinitions>
 
-                                        <RadioButton Grid.Column="0" Content="Insert" Margin="0,0,5,0" VerticalAlignment="Center" />
-                                        <TextBox Grid.Column="1" Margin="5,0,0,0" />
-                                        <TextBlock Grid.Column="2" Text="at" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <TextBox Grid.Column="3" Width="50" Margin="5,0,0,0"/>
-                                        <!--Should be a Numeric UpDown control-->
-                                        <CheckBox Grid.Column="4" Content="or at the end" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <RadioButton Grid.Column="0" Content="Insert" Margin="0,0,5,0" VerticalAlignment="Center" x:Name="insertRadioButton" IsChecked="True" GroupName="ActionGroup" />
+
+                                        <Grid Grid.Column="1" IsEnabled="{Binding  IsChecked, ElementName=insertRadioButton}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" Margin="5,0,0,0" x:Name="insertText"/>
+                                            <TextBlock Grid.Column="1" Text="at" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <controls:NumericUpDown  Grid.Column="2" Height="25" Min="1" x:Name="insertAtNumeric" IsEnabled="{Binding IsChecked, ElementName=atEndCheckbox, Converter={StaticResource NegateBool}}" />
+                                            <CheckBox Grid.Column="3" Content="or at the end" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="atEndCheckbox"/>
+                                        </Grid>
+                                        
                                     </Grid>
-                                    <Grid Grid.Row="1" Margin="0,5">
+                                    <Grid Grid.Row="1" Margin="0,5" Height="25">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="75"/>
-                                            <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition Width="75"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <RadioButton Grid.Column="0" Content="Delete from" Margin="0,0,5,0" VerticalAlignment="Center" />
-                                        <TextBox Grid.Column="1" Margin="5,0,0,0" />
-                                        <!--Should be a Numeric UpDown control-->
-                                        <TextBlock Grid.Column="2" Text="to" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <TextBox Grid.Column="3" Width="50" Margin="5,0,0,0"/>
-                                        <!--Should be a Numeric UpDown control-->
-
+                                        <RadioButton Grid.Column="0" Content="Delete from" Margin="0,0,5,0" VerticalAlignment="Center" x:Name="deleteRadioButton" GroupName="ActionGroup" />
+                                        <Grid Grid.Column="1" IsEnabled="{Binding  IsChecked, ElementName=deleteRadioButton}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <controls:NumericUpDown  Grid.Column="0" Height="25" Min="1" x:Name="deleteFromNumeric" />
+                                            <TextBlock Grid.Column="1" Text="to" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <controls:NumericUpDown Min="1" Value="5" Grid.Column="2" Height="25" x:Name="deleteToNumeric" />
+                                        </Grid>
                                     </Grid>
                                 </Grid>
 

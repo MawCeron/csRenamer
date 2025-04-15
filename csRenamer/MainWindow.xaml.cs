@@ -96,7 +96,10 @@ namespace csRenamer
         private void previewButton_Click(object sender, RoutedEventArgs e)
         {
             progressBar.IsIndeterminate = true;
-            var option = renameOptions.SelectedItem as TabItem;            
+            var option = renameOptions.SelectedItem as TabItem;
+
+            
+
             switch (option.Tag)
             {
                 case "0":
@@ -137,7 +140,28 @@ namespace csRenamer
                     }
                     break;
                 case "2":
-                    // Insert and Delete
+                    // Insert or Delete
+                    foreach (var file in FileServices.Files)
+                    {
+                        string name = keepExtensionCheckbox.IsChecked == true ? Path.GetFileNameWithoutExtension(file.FileName) : file.FileName;
+                        string extension = keepExtensionCheckbox.IsChecked == true ? Path.GetExtension(file.FileName) : "";
+
+                        string newName = name;
+
+                        if (insertRadioButton.IsChecked == true)
+                        {
+                            if (atEndCheckbox.IsChecked == true)
+                                newName = AnotherRenamers.InsertAt(name, insertText.Text, 0);
+                            else
+                                newName = AnotherRenamers.InsertAt(name, insertText.Text, insertAtNumeric.Value);
+                        }
+                            
+
+                        if (deleteRadioButton.IsChecked == true)
+                            newName = AnotherRenamers.DeleteFrom(name, deleteFromNumeric.Value, deleteToNumeric.Value);
+
+                        file.NewName = newName + extension;
+                    }
                     break;
                 case "3":
                     // Manual rename
