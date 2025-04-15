@@ -28,7 +28,7 @@ namespace csRenamer
         private async void FolderTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var selected = treeView.SelectedItem as TreeViewItem;
-            var mode = Int32.Parse(((ComboBoxItem)comboOptions.SelectedItem).Tag.ToString());
+            var mode = comboOptions.SelectedIndex;
             var pattern = textboxPattern.Text.Trim();
             var recursively = checkboxRecursively.IsChecked == true;
             stopButton.Visibility = Visibility.Visible;
@@ -41,7 +41,7 @@ namespace csRenamer
                 var token = cancellationTokenSource.Token;
 
                 progressBar.IsIndeterminate = true;
-                string selectedPath = selected.Tag.ToString();
+                string selectedPath = selected.Tag?.ToString() ?? "";
                 directoryText.Text = selectedPath;
 
                 FileServices.Files.Clear();
@@ -96,13 +96,13 @@ namespace csRenamer
         private void previewButton_Click(object sender, RoutedEventArgs e)
         {
             progressBar.IsIndeterminate = true;
-            var option = renameOptions.SelectedItem as TabItem;
+            var option = renameOptions.SelectedIndex;
 
-            
 
-            switch (option.Tag)
+
+            switch (option)
             {
-                case "0":
+                case 0:
                     // Patterns
                     foreach (var file in FileServices.Files)
                     {
@@ -112,7 +112,7 @@ namespace csRenamer
                         file.NewName = newName;
                     }
                     break;
-                case "1":
+                case 1:
                     // Subtitutions
                     foreach (var file in FileServices.Files)
                     {
@@ -139,7 +139,7 @@ namespace csRenamer
                         file.NewName = newName + extension;
                     }
                     break;
-                case "2":
+                case 2:
                     // Insert or Delete
                     foreach (var file in FileServices.Files)
                     {
@@ -163,7 +163,7 @@ namespace csRenamer
                         file.NewName = newName + extension;
                     }
                     break;
-                case "3":
+                case 3:
                     // Manual rename
                     break;
             }
