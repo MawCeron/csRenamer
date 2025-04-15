@@ -72,8 +72,6 @@ namespace csRenamer
             }
         }
 
-
-
         private void optionsButton_Click(object sender, RoutedEventArgs e)
         {
             optionsButton.Visibility = Visibility.Collapsed;
@@ -97,8 +95,6 @@ namespace csRenamer
         {
             progressBar.IsIndeterminate = true;
             var option = renameOptions.SelectedIndex;
-
-
 
             switch (option)
             {
@@ -165,6 +161,10 @@ namespace csRenamer
                     break;
                 case 3:
                     // Manual rename
+                    var selectedFile = renameGrid.SelectedItem as FileServices.FileItem;                    
+                    string fileExtension = keepExtensionCheckbox.IsChecked == true ? Path.GetExtension(selectedFile!.FileName) : "";
+
+                    selectedFile!.NewName = manualRenameText.Text + fileExtension;
                     break;
             }
 
