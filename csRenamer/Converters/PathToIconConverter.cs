@@ -1,9 +1,8 @@
 ﻿using System.Globalization;
 using System.IO;
 using System.Windows.Data;
-using System.Windows.Media;
 
-namespace csRenamer
+namespace csRenamer.Converters
 {
     public class PathToIconConverter : IValueConverter
     {
@@ -19,8 +18,8 @@ namespace csRenamer
 
             // Return the correct resource
             return isDrive
-                ? App.Current.Resources["DriveIcon"]
-                : App.Current.Resources["FolderIcon"];
+                ? System.Windows.Application.Current.Resources["DriveIcon"]
+                : System.Windows.Application.Current.Resources["FolderIcon"];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
