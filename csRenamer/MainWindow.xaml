@@ -144,9 +144,9 @@
                         <Button Content="Preview" Margin="0,0,0,5" Style="{StaticResource ButtonWithText}" Tag="{StaticResource SearchIcon}" Width="90" Background="{StaticResource Button}"
                                 BorderBrush="{StaticResource ButtonBorder}" x:Name="previewButton" Click="previewButton_Click"/>
                         <Button Content="Clear" Margin="0,0,0,5" Style="{StaticResource ButtonWithText}" Tag="{StaticResource ClearIcon}" Width="90" Background="{StaticResource Button}"
-                                BorderBrush="{StaticResource ButtonBorder}" x:Name="clearButton"/>
+                                BorderBrush="{StaticResource ButtonBorder}" x:Name="clearButton" Click="clearButton_Click"/>
                         <Button Content="Rename" Margin="0,0,0,5" Style="{StaticResource ButtonWithText}" Tag="{StaticResource RenameIcon}" Width="90" Background="{StaticResource Button}"
-                                BorderBrush="{StaticResource ButtonBorder}" x:Name="renameButton"/>
+                                BorderBrush="{StaticResource ButtonBorder}" x:Name="renameButton" Click="renameButton_Click"/>
                         <Button Content="Quit" Style="{StaticResource ButtonWithText}" Tag="{StaticResource QuitIcon}"  Width="90" Background="{StaticResource Button}"
                                 BorderBrush="{StaticResource ButtonBorder}" x:Name="quitButton" Click="quitButton_Click"/>
                     </StackPanel>

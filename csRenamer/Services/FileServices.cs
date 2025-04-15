@@ -148,7 +148,36 @@ namespace csRenamer.Services
             return files;
         }
 
+        public static void RenameFiles()
+        {
+            foreach (var file in Files)
+            {
+                // Validate that NewName is not empty and is different from the current name
+                if (string.IsNullOrWhiteSpace(file.NewName) || file.NewName == file.FileName)
+                    continue;
 
+                string directory = Path.GetDirectoryName(file.FullPath)!;
+                string newFullPath = Path.Combine(directory, file.NewName);
+
+                // Check if a file with the new name already exists
+                if (File.Exists(newFullPath))
+                    continue;
+
+                try
+                {
+                    File.Move(file.FullPath, newFullPath);
+
+                    // Update properties if the rename was successful
+                    file.FileName = file.NewName;
+                    file.FullPath = newFullPath;
+                }
+                catch (Exception)
+                {
+                    // If an error occurs, skip and leave the FileItem unchanged
+                    continue;
+                }
+            }
+        }
 
     }
 }

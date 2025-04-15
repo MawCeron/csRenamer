@@ -176,5 +176,21 @@ namespace csRenamer
         {
             cancellationTokenSource?.Cancel();
         }
+
+        private void clearButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach(var file in FileServices.Files)
+            {
+                file.NewName = string.Empty;
+            }
+
+            RefreshGrid();
+        }
+
+        private void renameButton_Click(object sender, RoutedEventArgs e)
+        {
+            FileServices.RenameFiles();
+            RefreshGrid();
+        }
     }
 }
