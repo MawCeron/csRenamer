@@ -65,7 +65,7 @@ namespace csRenamer
                     MessageBox.Show($"Error al cargar archivos: {ex.Message}");
                 }
 
-                RefreshGrid();
+                RefreshGrid();                
                 filesText.Text = renameGrid.Items.Count.ToString();
                 stopButton.Visibility = Visibility.Collapsed;
                 progressBar.IsIndeterminate = false;
@@ -100,13 +100,15 @@ namespace csRenamer
             {
                 case 0:
                     // Patterns
+                    int counter = 0;
                     foreach (var file in FileServices.Files)
                     {
-                        string newName = PatternRenamer.RenameUsingPatterns(file.FileName, file.FullPath, originalPattern.Text, renamedPattern.Text, 0,
+                        string newName = PatternRenamer.RenameUsingPatterns(file.FileName, file.FullPath, originalPattern.Text, renamedPattern.Text, counter,
                             keepExtensionCheckbox.IsChecked == true ? Path.GetExtension(file.FullPath).TrimStart('.') : "");
 
                         file.NewName = newName;
-                    }
+                        counter++;
+                    }                    
                     break;
                 case 1:
                     // Subtitutions
