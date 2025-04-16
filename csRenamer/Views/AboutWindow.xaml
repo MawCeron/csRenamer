@@ -14,14 +14,16 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Image Grid.Row="0"  Source="{StaticResource csRenamerIcon}" Height="120" />
         <TextBlock Grid.Row="1" Text="csRenamer" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,0"/>        
-        <TextBlock Grid.Row="2" Text="ver. 0.1.0" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+        <TextBlock Grid.Row="2" Text="ver. 0.1.0" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,0" x:Name="versionText"/>
+        <TextBlock Grid.Row="3" Text="ver. 0.1.0" FontSize="10" FontWeight="Medium" Foreground="{StaticResource ThirdText}" HorizontalAlignment="Center" Margin="0,0,0,20" x:Name="commitText"/>
 
-        <Button Grid.Row="3" Style="{StaticResource ButtonIssue}" Margin="10,0" Click="Issue_Click">            
+        <Button Grid.Row="4" Style="{StaticResource ButtonIssue}" Margin="10,0" Click="Issue_Click">            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -32,7 +34,7 @@
             </Grid>
         </Button>
 
-        <Button Grid.Row="4" Style="{StaticResource ButtonTop}" Margin="10,10,10,0" Click="Credits_Click">
+        <Button Grid.Row="5" Style="{StaticResource ButtonTop}" Margin="10,10,10,0" Click="Credits_Click">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -42,7 +44,7 @@
                 <Image Grid.Column="1" Source="{StaticResource ChevronIcon}" Height="16" Width="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
             </Grid>
         </Button>
-        <Button Grid.Row="5" Style="{StaticResource ButtonBottom}" Margin="10,0,10,0">
+        <Button Grid.Row="6" Style="{StaticResource ButtonBottom}" Margin="10,0,10,0" Click="License_Click">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
