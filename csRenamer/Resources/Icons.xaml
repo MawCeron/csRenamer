@@ -331,4 +331,31 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
+    <!-- Chevron Icon -->
+    <DrawingImage x:Key="ChevronIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                <GeometryDrawing Geometry="F1 M24,24z M0,0z M10,17L15,12 10,7">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#FF6f6f6f" Thickness="1.5" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" MiterLimit="1" />
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <!-- Github Icon -->
+    <DrawingImage x:Key="GithubIcon">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V64 H64 V0 H0 Z">
+                <DrawingGroup.Transform>
+                    <TranslateTransform X="0" Y="192" />
+                </DrawingGroup.Transform>
+                <DrawingGroup Opacity="1">
+                    <GeometryDrawing Brush="#FF6F6F6F" Geometry="F0 M64,64z M0,0z M32.029,8.345C18.759,8.345 8,19.104 8,32.378 8,42.995 14.885,52.002 24.435,55.181 25.637,55.401 26.075,54.659 26.075,54.021 26.075,53.452 26.055,51.94 26.043,49.935 19.358,51.387 17.948,46.713 17.948,46.713 16.855,43.938 15.279,43.199 15.279,43.199 13.097,41.707 15.444,41.737 15.444,41.737 17.856,41.908 19.125,44.214 19.125,44.214 21.269,47.886 24.75,46.825 26.119,46.211 26.338,44.658 26.957,43.599 27.645,42.998 22.309,42.392 16.698,40.329 16.698,31.121 16.698,28.498 17.635,26.352 19.172,24.672 18.925,24.064 18.1,21.621 19.407,18.312 19.407,18.312 21.425,17.666 26.016,20.776 27.933,20.243 29.989,19.976 32.032,19.967 34.073,19.976 36.129,20.243 38.049,20.776 42.637,17.666 44.651,18.312 44.651,18.312 45.962,21.621 45.137,24.064 44.89,24.672 46.43,26.352 47.361,28.498 47.361,31.121 47.361,40.353 41.741,42.384 36.387,42.979 37.251,43.721 38.019,45.187 38.019,47.43 38.019,50.642 37.99,53.234 37.99,54.021 37.99,54.665 38.422,55.413 39.642,55.178 49.184,51.993 56.063,42.992 56.063,32.378 56.063,19.104 45.303,8.34499999999998 32.029,8.34499999999998" />
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
 </ResourceDictionary>

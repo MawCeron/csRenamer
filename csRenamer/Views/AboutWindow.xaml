@@ -1,0 +1,59 @@
+﻿<Window x:Class="csRenamer.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:csRenamer.Views"
+        mc:Ignorable="d"
+        Title="About csRenamer" Height="390" Width="300" Background="{StaticResource Background}" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>            
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image Grid.Row="0"  Source="{StaticResource csRenamerIcon}" Height="120" />
+        <TextBlock Grid.Row="1" Text="csRenamer" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,0"/>        
+        <TextBlock Grid.Row="2" Text="ver. 0.1.0" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+
+        <Button Grid.Row="3" Style="{StaticResource ButtonIssue}" Margin="10,0" Click="Issue_Click">            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Report an issue" FontSize="14" FontWeight="Medium" HorizontalAlignment="Left" Margin="8,5,8,6" Foreground="{StaticResource ThirdText}"/>
+                <Image Grid.Column="1" Source="{StaticResource GithubIcon}" Height="20" Width="20" Margin="0,0,8,0" VerticalAlignment="Center"/>
+            </Grid>
+        </Button>
+
+        <Button Grid.Row="4" Style="{StaticResource ButtonTop}" Margin="10,10,10,0" Click="Credits_Click">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Credits" FontSize="14" FontWeight="Medium" HorizontalAlignment="Left" Margin="8,5,8,6" Foreground="{StaticResource ThirdText}"/>
+                <Image Grid.Column="1" Source="{StaticResource ChevronIcon}" Height="16" Width="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
+            </Grid>
+        </Button>
+        <Button Grid.Row="5" Style="{StaticResource ButtonBottom}" Margin="10,0,10,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="License" FontSize="14" FontWeight="Medium" HorizontalAlignment="Left" Margin="8,5,8,6" Foreground="{StaticResource ThirdText}"/>
+                <Image Grid.Column="1" Source="{StaticResource ChevronIcon}" Height="16" Width="16" Margin="0,0,8,0" VerticalAlignment="Center"/>
+            </Grid>
+        </Button>
+
+
+
+    </Grid>
+</Window>

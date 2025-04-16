@@ -151,7 +151,7 @@
                                 BorderBrush="{StaticResource ButtonBorder}" x:Name="quitButton" Click="quitButton_Click"/>
                     </StackPanel>
 
-                    <Button Grid.Row="1" Content="{StaticResource QuestionIcon}" Width="30" Height="30" HorizontalAlignment="Right" Style="{StaticResource QuestionButton}" x:Name="aboutButton" Margin="0,0,20,10" />
+                    <Button Grid.Row="1" Content="{StaticResource QuestionIcon}" Width="30" Height="30" HorizontalAlignment="Right" Style="{StaticResource QuestionButton}" x:Name="aboutButton" Margin="0,0,20,10" Click="aboutButton_Click" />
                 </Grid>
 
 

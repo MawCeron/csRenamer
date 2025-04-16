@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using csRenamer.Services;
+using csRenamer.Views;
 
 namespace csRenamer
 {
@@ -193,6 +194,12 @@ namespace csRenamer
         {
             FileServices.RenameFiles();
             RefreshGrid();
+        }
+
+        private void aboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow aboutWindow = new AboutWindow(this);
+            aboutWindow.ShowDialog();
         }
     }
 }

@@ -10,4 +10,5 @@
     <!-- Text Colors -->
     <SolidColorBrush x:Key="MainText" Color="#1f1f1f" />
     <SolidColorBrush x:Key="SecondaryText" Color="#c3c3c3" />
+    <SolidColorBrush x:Key="ThirdText" Color="#6f6f6f" />
 </ResourceDictionary>
