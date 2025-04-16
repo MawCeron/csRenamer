@@ -51,6 +51,10 @@ For regular users, a pre-built Windows installer will be provided — no setup o
 
 > The installer will be available on the [Releases](https://github.com/yourusername/csRenamer/releases) page.
 
+Additionally, you can download the ZIP file containing the binaries if you prefer not to use the installer. Please note that .NET 8 must be installed on your system for the application to run.
+
+> You can download the ZIP with the binaries from the [Releases](https://github.com/yourusername/csRenamer/releases) page.
+
 ## About This Project
 
 csRenamer is a personal reimplementation of the original **pyRenamer** application. It aims to maintain feature parity while taking advantage of the Windows Presentation Foundation (WPF) framework for a polished and responsive user experience. It’s built for users who want to perform complex batch renaming without relying on command-line tools.
