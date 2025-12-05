@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "csRenamer (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "csRenamer (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
