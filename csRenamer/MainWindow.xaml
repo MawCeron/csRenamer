@@ -6,6 +6,9 @@
     xmlns:local="using:csRenamer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:csRenamer.Models"
+    xmlns:services="using:csRenamer.Services"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d"
     Title="csRenamer">
 
@@ -13,13 +16,7 @@
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
+    <Grid RowDefinitions="Auto,*,Auto">
         <!-- Command Bar -->
         <CommandBar
             DefaultLabelPosition="Right"
@@ -72,19 +69,29 @@
             </SplitView.Pane>
 
             <!-- Main area -->
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <Grid RowDefinitions="*,Auto,Auto">
 
-                <TextBlock Text="Right-click to select a folder" 
-                           HorizontalAlignment="Center" 
-                           VerticalAlignment="Center" 
-                           FontSize="16"
-                           Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
-                           x:Name="placeholderText"/>
+                <Grid ColumnDefinitions="Auto,Auto,*">
+                    <!-- Folder Browser TreeView -->
+                    <TreeView x:Name="folderTreeView" Width="300" MinWidth="200" MaxWidth="600"
+                              ItemInvoked="folderTreeView_ItemInvoked"
+                              Expanding="folderTreeView_Expanding">
+                        <TreeView.ItemTemplate>
+                            <DataTemplate x:DataType="TreeViewNode">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon Glyph="{x:Bind Content.(models:FolderTreeItem.IconGlyph)}"/>
+                                    <TextBlock Text="{x:Bind Content.(models:FolderTreeItem.Name)}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                    <!-- Grid Splitter -->
+                    <controls:ContentSizer Grid.Column="1"
+                               TargetControl="{x:Bind folderTreeView}" />
+                    
+                    <!-- Data Grid -->
+
+                </Grid>
 
                 <SelectorBar x:Name="SelectorBar" Grid.Row="1" Padding="4,2" SelectionChanged="SelectorBar_SelectionChanged">
                     <SelectorBarItem x:Name="SelectorBarItemPatterns" Text="Patterns" IsSelected="True">

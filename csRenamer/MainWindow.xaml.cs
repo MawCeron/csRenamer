@@ -12,6 +12,8 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using csRenamer.Services;
+using csRenamer.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,6 +28,7 @@ namespace csRenamer
         public MainWindow()
         {
             this.InitializeComponent();
+            FolderExplorer.LoadDrives(folderTreeView);
 
             // Show the Patterns page on startup
             ContentFrame.Navigate(typeof(csRenamer.Pages.Patterns));
@@ -71,6 +74,75 @@ namespace csRenamer
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void folderTreeView_SelectionChanged(TreeView sender, TreeViewSelectionChangedEventArgs args)
+        {
+
+        }
+
+        private void folderTreeView_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
+        {
+            var node = args.InvokedItem as TreeViewNode;
+            var folderItem = node?.Content as FolderTreeItem;
+
+            if (folderItem != null)
+            {
+                // Aquí manejas cuando se selecciona una carpeta
+                System.Diagnostics.Debug.WriteLine($"Selected: {folderItem.FullPath}");
+            }
+        }
+
+        private void folderTreeView_Expanding(TreeView sender, TreeViewExpandingEventArgs args)
+        {
+            if (args.Node.HasUnrealizedChildren)
+            {
+                args.Node.Children.Clear();
+
+                var folderItem = args.Node.Content as FolderTreeItem;
+                if (folderItem == null) return;
+
+                try
+                {
+                    var directories = Directory.GetDirectories(folderItem.FullPath);
+
+                    foreach (var dir in directories)
+                    {
+                        var dirInfo = new DirectoryInfo(dir);
+
+                        // Omitir carpetas ocultas o del sistema si quieres
+                        if ((dirInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden ||
+                            (dirInfo.Attributes & FileAttributes.System) == FileAttributes.System)
+                            continue;
+
+                        var childItem = new FolderTreeItem
+                        {
+                            Name = dirInfo.Name,
+                            FullPath = dirInfo.FullName,
+                            IconGlyph = "\uE8B7" // Folder icon
+                        };
+
+                        var childNode = new TreeViewNode
+                        {
+                            Content = childItem,
+                            HasUnrealizedChildren = FolderExplorer.HasSubfolders(dirInfo.FullName)
+                        };
+
+                        args.Node.Children.Add(childNode);
+                    }
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // No tienes permisos para acceder a esta carpeta
+                }
+                catch (Exception ex)
+                {
+                    // Maneja otros errores
+                    System.Diagnostics.Debug.WriteLine($"Error: {ex.Message}");
+                }
+
+                args.Node.HasUnrealizedChildren = false;
             }
         }
     }
