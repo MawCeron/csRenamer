@@ -17,6 +17,8 @@
     <Content Remove="Assets\csRenamer.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Pages\InsertDelete.xaml" />
+    <None Remove="Pages\Manual.xaml" />
     <None Remove="Pages\Patterns.xaml" />
     <None Remove="Pages\Substitutions.xaml" />
   </ItemGroup>
@@ -46,6 +48,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Manual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\InsertDelete.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Substitutions.xaml">

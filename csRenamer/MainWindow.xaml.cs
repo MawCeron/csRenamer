@@ -62,7 +62,13 @@ namespace csRenamer
                     break;
                 case 1:
                     ContentFrame.Navigate(typeof(csRenamer.Pages.Substitutions));
-                    break;                
+                    break;
+                case 2:
+                    ContentFrame.Navigate(typeof(csRenamer.Pages.InsertDelete));
+                    break;
+                case 3:
+                    ContentFrame.Navigate(typeof(csRenamer.Pages.Manual));
+                    break;
                 default:
                     break;
             }
