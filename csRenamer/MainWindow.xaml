@@ -43,7 +43,7 @@
         <!-- Main Content -->
         <SplitView Grid.Row="1" x:Name="splitView" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
            IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="48" DisplayMode="Overlay" PanePlacement="Right">
-            
+
             <!-- Options panel -->
             <SplitView.Pane>
                 <StackPanel Spacing="12" Margin="12">
@@ -88,8 +88,55 @@
                     <!-- Grid Splitter -->
                     <controls:ContentSizer Grid.Column="1"
                                TargetControl="{x:Bind folderTreeView}" />
-                    
+
                     <!-- Data Grid -->
+                    <ListView Grid.Column="2" 
+          Margin="5" 
+          x:Name="renameGrid"
+          SelectionMode="Extended"
+          IsItemClickEnabled="False">
+
+                        <!-- Header -->
+                        <ListView.Header>
+                            <Grid Padding="12,8" 
+              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+              BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Original File Name" 
+                       FontWeight="SemiBold"
+                       Grid.Column="0"/>
+                                <TextBlock Text="Renamed File Name" 
+                       FontWeight="SemiBold"
+                       Grid.Column="1"/>
+                            </Grid>
+                        </ListView.Header>
+
+                        <!-- Item Template -->
+                        <ListView.ItemTemplate>
+                            <DataTemplate >
+                                <Grid Padding="12,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="filename" 
+                           Grid.Column="0"
+                           TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center"/>
+                                    <TextBlock Text="newname" 
+                           Grid.Column="1"
+                           TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
                 </Grid>
 
