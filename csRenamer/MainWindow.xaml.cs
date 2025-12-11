@@ -29,7 +29,10 @@ namespace csRenamer
         {
             this.InitializeComponent();
             FolderExplorer.LoadDrives(folderTreeView);
-
+            
+            if (folderTreeView.RootNodes.Count > 0)            
+                folderTreeView.SelectedNode = folderTreeView.RootNodes[0];
+            
             // Show the Patterns page on startup
             ContentFrame.Navigate(typeof(csRenamer.Pages.Patterns));
         }
@@ -77,21 +80,17 @@ namespace csRenamer
             }
         }
 
-        private void folderTreeView_SelectionChanged(TreeView sender, TreeViewSelectionChangedEventArgs args)
-        {
-
-        }
-
         private void folderTreeView_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
         {
             var node = args.InvokedItem as TreeViewNode;
+
+            if (node!=null)
+                node.IsExpanded = !node.IsExpanded;
+
             var folderItem = node?.Content as FolderTreeItem;
 
             if (folderItem != null)
-            {
-                // Aquí manejas cuando se selecciona una carpeta
                 System.Diagnostics.Debug.WriteLine($"Selected: {folderItem.FullPath}");
-            }
         }
 
         private void folderTreeView_Expanding(TreeView sender, TreeViewExpandingEventArgs args)

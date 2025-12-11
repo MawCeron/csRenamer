@@ -47,8 +47,5 @@ namespace csRenamer.Services
                 return false;
             }
         }
-
-        
-
     }
 }
