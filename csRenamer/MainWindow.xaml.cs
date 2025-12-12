@@ -1,19 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using csRenamer.Services;
 using csRenamer.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,6 +18,8 @@ namespace csRenamer
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+
+        private CancellationTokenSource? cancellationTokenSource;
         public MainWindow()
         {
             this.InitializeComponent();
@@ -142,6 +137,52 @@ namespace csRenamer
                 }
 
                 args.Node.HasUnrealizedChildren = false;
+            }
+        }
+
+        private async void folderTreeView_SelectionChanged(TreeView sender, TreeViewSelectionChangedEventArgs args)
+        {
+            var node = sender.SelectedNodes.FirstOrDefault();
+            if (node == null) return;
+
+            var folderItem = node.Content as FolderTreeItem;
+            if (folderItem == null) return;
+
+            string selectedPath = folderItem.FullPath;
+
+            var showOptions = cbShowOptions.SelectedIndex;
+            var selectionPattern = tbSelectionPattern.Text;
+            var recursive = chbRecursive.IsChecked == true;
+
+            btnStop.Visibility = Visibility.Visible;
+
+            cancellationTokenSource?.Cancel();
+            cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+
+            progressBar.IsIndeterminate = true;
+
+            directoryText.Text = selectedPath;
+            Files.FileItems.Clear();
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    Files.LoadFiles(selectedPath, showOptions, selectionPattern, recursive, token);
+                }, token);
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                ContentDialog dialog = new ContentDialog()
+                {
+                    Title = "Error",
+                    Content = $"An error occurred while loading files: {ex.Message}",
+                    CloseButtonText = "OK"
+                };
+
+                var result = await dialog.ShowAsync();
             }
         }
     }

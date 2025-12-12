@@ -75,7 +75,7 @@
                     <!-- Folder Browser TreeView -->
                     <TreeView x:Name="folderTreeView" Width="300" MinWidth="200" MaxWidth="600"
                               ItemInvoked="folderTreeView_ItemInvoked"
-                              Expanding="folderTreeView_Expanding">
+                              Expanding="folderTreeView_Expanding" SelectionChanged="folderTreeView_SelectionChanged">
                         <TreeView.ItemTemplate>
                             <DataTemplate x:DataType="TreeViewNode">
                                 <StackPanel Orientation="Horizontal" Spacing="6">
