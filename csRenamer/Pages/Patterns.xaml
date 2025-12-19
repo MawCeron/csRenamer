@@ -8,6 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style x:Key="MonoTextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Page.Resources>
+
     <Grid Padding="5,10" RowDefinitions="Auto,Auto,Auto,Auto">
 
         <Grid Grid.Row="1"
@@ -23,20 +30,20 @@
                        />
 
             <ComboBox Grid.Column="1" Grid.Row="0"
-                      IsEditable="True"
-                      VerticalAlignment="Center"                                            
-                      HorizontalAlignment="Stretch">
-                <ComboBoxItem Content="[X]" IsSelected="True"/>
-            </ComboBox>
+                      IsEditable="True" x:Name="cbOriginalPattern" FontFamily="Cascadia Mono"
+                      VerticalAlignment="Center" TextBoxStyle="{StaticResource MonoTextBoxStyle}"
+                      HorizontalAlignment="Stretch"/>
 
             <Button Grid.Column="2" Grid.Row="0" Width="36" Height="34"
-                    Style="{StaticResource AccentButtonStyle}">
+                    Style="{StaticResource AccentButtonStyle}" x:Name="btOriginalPatternSave"
+                    Click="btOriginalPatternSave_Click">
                 <Button.Content>
                     <FontIcon Glyph="&#xE74E;" FontSize="13" />
                 </Button.Content>
             </Button>
 
-            <Button Grid.Column="3" Grid.Row="0" Width="36" Height="34">
+            <Button Grid.Column="3" Grid.Row="0" Width="36" Height="34"
+                    x:Name="btOriginalPatternEdit" Click="btOriginalPatternEdit_Click">
                 <Button.Content>
                     <FontIcon Glyph="&#xE932;" FontSize="13" />
                 </Button.Content>
@@ -46,18 +53,20 @@
                        VerticalAlignment="Center"/>
 
             <ComboBox Grid.Column="1" Grid.Row="1"
-                      IsEditable="True"
-                      VerticalAlignment="Center"                      
+                      IsEditable="True" x:Name="cbRenamedPattern" FontFamily="Cascadia Mono"
+                      VerticalAlignment="Center" TextBoxStyle="{StaticResource MonoTextBoxStyle}"
                       HorizontalAlignment="Stretch"/>
 
             <Button Grid.Column="2" Grid.Row="1" Width="36" Height="34"
-                    Style="{StaticResource AccentButtonStyle}">
+                    Style="{StaticResource AccentButtonStyle}" x:Name="btRenamedPatternSave"
+                    Click="btRenamedPatternSave_Click">
                 <Button.Content>
                     <FontIcon Glyph="&#xE74E;" FontSize="13" />
                 </Button.Content>
             </Button>
 
-            <Button Grid.Column="3" Grid.Row="1" Width="36" Height="34">
+            <Button Grid.Column="3" Grid.Row="1" Width="36" Height="34"
+                    x:Name="btRenamedPatternEdit" Click="btRenamedPatternEdit_Click">
                 <Button.Content>
                     <FontIcon Glyph="&#xE932;" FontSize="13" />
                 </Button.Content>

@@ -34,6 +34,8 @@
     <Content Remove="Assets\Square44x44Logo.targetsize-48.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Patterns\original_patterns.txt" />
+    <None Remove="Assets\Patterns\renamed_patterns.txt" />
     <None Remove="Pages\InsertDelete.xaml" />
     <None Remove="Pages\Manual.xaml" />
     <None Remove="Pages\Patterns.xaml" />
@@ -89,6 +91,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Styles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\Patterns\original_patterns.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Patterns\renamed_patterns.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\csRenamer.ico">
