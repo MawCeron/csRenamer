@@ -20,9 +20,16 @@ namespace csRenamer
     {
 
         private CancellationTokenSource? cancellationTokenSource;
+        private readonly FileReload _fileReload = new();
+        private DispatcherTimer _patternDebounceTimer;
+
         public MainWindow()
         {
             this.InitializeComponent();
+
+            // set selected index after controls are initialized
+            cbShowOptions.SelectedIndex = 0;
+
             FolderExplorer.LoadDrives(folderTreeView);
             
             if (folderTreeView.RootNodes.Count > 0)            
@@ -30,6 +37,17 @@ namespace csRenamer
             
             // Show the Patterns page on startup
             ContentFrame.Navigate(typeof(csRenamer.Pages.Patterns));
+
+            _patternDebounceTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(400)
+            };
+
+            _patternDebounceTimer.Tick += async (s, e) =>
+            {
+                _patternDebounceTimer.Stop();
+                await ReloadFilesAsync();
+            };
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
@@ -46,6 +64,7 @@ namespace csRenamer
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
+            _fileReload.Cancel();
             btnStop.Visibility = Visibility.Collapsed;
             progressBar.IsIndeterminate = false;
             btnRename.Visibility = Visibility.Visible;
@@ -143,57 +162,62 @@ namespace csRenamer
         private async void folderTreeView_SelectionChanged(TreeView sender, TreeViewSelectionChangedEventArgs args)
         {
             var node = sender.SelectedNodes.FirstOrDefault();
-            if (node == null) return;
+            if (node?.Content is not FolderTreeItem folderItem)
+                return;
 
-            var folderItem = node.Content as FolderTreeItem;
-            if (folderItem == null) return;
+            directoryText.Text = folderItem.FullPath;
+            await ReloadFilesAsync();
+        }
 
-            string selectedPath = folderItem.FullPath;
-
-            var showOptions = cbShowOptions.SelectedIndex;
-            var selectionPattern = tbSelectionPattern.Text;
-            var recursive = chbRecursive.IsChecked == true;
+        private async Task ReloadFilesAsync()
+        {
+            if (string.IsNullOrWhiteSpace(directoryText.Text))
+                return;
 
             btnStop.Visibility = Visibility.Visible;
-
-            cancellationTokenSource?.Cancel();
-            cancellationTokenSource = new CancellationTokenSource();
-            var token = cancellationTokenSource.Token;
-
             progressBar.IsIndeterminate = true;
-
-            directoryText.Text = selectedPath;            
 
             try
             {
-                var items = await Task.Run(() =>
-                {
-                    return Files.LoadFiles(selectedPath, showOptions,
-                        selectionPattern, recursive, token);
-                }, token);
+                var items = await _fileReload.ReloadAsync(
+                    directoryText.Text,
+                    cbShowOptions.SelectedIndex,
+                    tbSelectionPattern.Text,
+                    chbRecursive.IsChecked == true);
+
                 renameGrid.ItemsSource = items;
                 filesText.Text = items.Count.ToString();
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                ContentDialog dialog = new ContentDialog()
+                await new ContentDialog
                 {
                     Title = "Error",
-                    Content = $"An error occurred while loading files: {ex.Message}",
+                    Content = ex.Message,
                     CloseButtonText = "OK"
-                };
-
-                var result = await dialog.ShowAsync();
+                }.ShowAsync();
             }
 
             btnStop.Visibility = Visibility.Collapsed;
             progressBar.IsIndeterminate = false;
         }
 
-        private void RefreshGrid()
+
+        private async void cbShowOptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            return;
+            await ReloadFilesAsync();
+        }
+
+        private void tbSelectionPattern_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _patternDebounceTimer.Stop();
+            _patternDebounceTimer.Start();
+        }
+
+        private async void chbRecursive_Checked(object sender, RoutedEventArgs e)
+        {
+            await ReloadFilesAsync();
         }
     }
 }

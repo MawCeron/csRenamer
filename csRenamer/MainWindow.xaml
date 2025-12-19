@@ -51,18 +51,31 @@
                     <ComboBox x:Name="cbShowOptions" Header="Show"
                               Width="240"
                               HorizontalAlignment="Left"
-                              Padding="12,4">
-                        <ComboBoxItem Content="Files" IsSelected="True" />
+                              Padding="12,4" SelectionChanged="cbShowOptions_SelectionChanged">
+                        <ComboBoxItem Content="Files" />
                         <ComboBoxItem Content="Directories" />
                         <ComboBoxItem Content="Files and Directories" />
                     </ComboBox>
 
-                    <TextBox x:Name="tbSelectionPattern" Header="Selection Pattern"
-                             Width="240"
-                             HorizontalAlignment="Left"
-                             Padding="12,4" />
+                    <TextBox x:Name="tbSelectionPattern" Header="Selection Pattern" Text="*"
+                             Width="240" HorizontalAlignment="Left" Padding="12,4" TextChanged="tbSelectionPattern_TextChanged">
+                        <ToolTipService.ToolTip>
+                            <ToolTip>
+                                <TextBlock TextWrapping="Wrap">
+                                    <Run Text="File search pattern:"/>
+                                    <LineBreak/>
+                                    <LineBreak/>
+                                    <Run Text="*        → all visible files"/>
+                                    <LineBreak/>
+                                    <Run Text="*.ext    → filter by extension (e.g. *.jpg)"/>
+                                    <LineBreak/>
+                                    <Run Text="(empty)  → include hidden files"/>
+                                </TextBlock>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
+                    </TextBox>
 
-                    <CheckBox x:Name="chbRecursive" Content="Add files recursively" Padding="12,4"/>
+                    <CheckBox x:Name="chbRecursive" Content="Add files recursively" Padding="12,4" Checked="chbRecursive_Checked" Unchecked="chbRecursive_Checked"/>
                     <CheckBox x:Name="chbKeepExt" Content="Keep extensions" Padding="12,4"/>
                     <CheckBox x:Name="chbPreview" Content="Preview automatically" Padding="12,4" />
                 </StackPanel>
