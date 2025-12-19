@@ -16,176 +16,193 @@
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <Grid RowDefinitions="Auto,*,Auto">
-        <!-- Command Bar -->
-        <CommandBar
-            DefaultLabelPosition="Right"
-            Grid.Row="0">
-            <AppBarButton Icon="Zoom" Label="Preview"/>
-            <AppBarButton Label="Clear">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE75C;" FontFamily="Segoe MDL2 Assets" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton x:Name="btnRename" Icon="Rename" Label="Rename" Click="RenameButton_Click"/>
-            <AppBarButton x:Name="btnStop" Label="Stop" Visibility="Collapsed" Click="StopButton_Click">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE978;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarSeparator/>
-            <AppBarButton Icon="Setting" Label="Options" Click="SettingsButton_Click" />
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Help" Label="Help"/>
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <!-- Main Content -->
-        <SplitView Grid.Row="1" x:Name="splitView" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-           IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="48" DisplayMode="Overlay" PanePlacement="Right">
+        <TitleBar x:Name="titleBar"
+            Title="csRenamer"
+            Subtitle=""
+            IsBackButtonVisible="False"
+            IsPaneToggleButtonVisible="False">
+            <TitleBar.IconSource>
+                <ImageIconSource ImageSource="/Assets/csRenamer.ico" />
+            </TitleBar.IconSource>            
+        </TitleBar>
 
-            <!-- Options panel -->
-            <SplitView.Pane>
-                <StackPanel Spacing="12" Margin="12">
+        <Grid Grid.Row="1" RowDefinitions="Auto,*,Auto">
+            <!-- Command Bar -->
+            <CommandBar
+        DefaultLabelPosition="Right"
+        Grid.Row="0">
+                <AppBarButton Icon="Zoom" Label="Preview"/>
+                <AppBarButton Label="Clear">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE75C;" FontFamily="Segoe MDL2 Assets" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton x:Name="btnRename" Icon="Rename" Label="Rename" Click="RenameButton_Click"/>
+                <AppBarButton x:Name="btnStop" Label="Stop" Visibility="Collapsed" Click="StopButton_Click">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE978;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarSeparator/>
+                <AppBarButton Icon="Setting" Label="Options" Click="SettingsButton_Click" />
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton Icon="Help" Label="Help"/>
+                </CommandBar.SecondaryCommands>
+            </CommandBar>
 
-                    <ComboBox x:Name="cbShowOptions" Header="Show"
-                              Width="240"
-                              HorizontalAlignment="Left"
-                              Padding="12,4" SelectionChanged="cbShowOptions_SelectionChanged">
-                        <ComboBoxItem Content="Files" />
-                        <ComboBoxItem Content="Directories" />
-                        <ComboBoxItem Content="Files and Directories" />
-                    </ComboBox>
+            <!-- Main Content -->
+            <SplitView Grid.Row="1" x:Name="splitView" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+       IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="48" DisplayMode="Overlay" PanePlacement="Right">
 
-                    <TextBox x:Name="tbSelectionPattern" Header="Selection Pattern" Text="*"
-                             Width="240" HorizontalAlignment="Left" Padding="12,4" TextChanged="tbSelectionPattern_TextChanged">
-                        <ToolTipService.ToolTip>
-                            <ToolTip>
-                                <TextBlock TextWrapping="Wrap">
-                                    <Run Text="File search pattern:"/>
-                                    <LineBreak/>
-                                    <LineBreak/>
-                                    <Run Text="*        → all visible files"/>
-                                    <LineBreak/>
-                                    <Run Text="*.ext    → filter by extension (e.g. *.jpg)"/>
-                                    <LineBreak/>
-                                    <Run Text="(empty)  → include hidden files"/>
-                                </TextBlock>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
-                    </TextBox>
+                <!-- Options panel -->
+                <SplitView.Pane>
+                    <StackPanel Spacing="12" Margin="12">
 
-                    <CheckBox x:Name="chbRecursive" Content="Add files recursively" Padding="12,4" Checked="chbRecursive_Checked" Unchecked="chbRecursive_Checked"/>
-                    <CheckBox x:Name="chbKeepExt" Content="Keep extensions" Padding="12,4"/>
-                    <CheckBox x:Name="chbPreview" Content="Preview automatically" Padding="12,4" />
-                </StackPanel>
-            </SplitView.Pane>
+                        <ComboBox x:Name="cbShowOptions" Header="Show"
+                          Width="240"
+                          HorizontalAlignment="Left"
+                          Padding="12,4" SelectionChanged="cbShowOptions_SelectionChanged">
+                            <ComboBoxItem Content="Files" />
+                            <ComboBoxItem Content="Directories" />
+                            <ComboBoxItem Content="Files and Directories" />
+                        </ComboBox>
 
-            <!-- Main area -->
-            <Grid RowDefinitions="*,Auto,Auto">
+                        <TextBox x:Name="tbSelectionPattern" Header="Selection Pattern" Text="*"
+                         Width="240" HorizontalAlignment="Left" Padding="12,4" TextChanged="tbSelectionPattern_TextChanged">
+                            <ToolTipService.ToolTip>
+                                <ToolTip>
+                                    <TextBlock TextWrapping="Wrap">
+                                <Run Text="File search pattern:"/>
+                                <LineBreak/>
+                                <LineBreak/>
+                                <Run Text="*        → all visible files"/>
+                                <LineBreak/>
+                                <Run Text="*.ext    → filter by extension (e.g. *.jpg)"/>
+                                <LineBreak/>
+                                <Run Text="(empty)  → include hidden files"/>
+                                    </TextBlock>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBox>
 
-                <Grid ColumnDefinitions="Auto,Auto,*">
-                    <!-- Folder Browser TreeView -->
-                    <TreeView x:Name="folderTreeView" Width="300" MinWidth="200" MaxWidth="600"
-                              ItemInvoked="folderTreeView_ItemInvoked"
-                              Expanding="folderTreeView_Expanding" SelectionChanged="folderTreeView_SelectionChanged">
-                        <TreeView.ItemTemplate>
-                            <DataTemplate x:DataType="TreeViewNode">
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <FontIcon Glyph="{x:Bind Content.(models:FolderTreeItem.IconGlyph)}"/>
-                                    <TextBlock Text="{x:Bind Content.(models:FolderTreeItem.Name)}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </TreeView.ItemTemplate>
-                    </TreeView>
-                    <!-- Grid Splitter -->
-                    <controls:ContentSizer Grid.Column="1"
-                               TargetControl="{x:Bind folderTreeView}" />
+                        <CheckBox x:Name="chbRecursive" Content="Add files recursively" Padding="12,4" Checked="chbRecursive_Checked" Unchecked="chbRecursive_Checked"/>
+                        <CheckBox x:Name="chbKeepExt" Content="Keep extensions" Padding="12,4"/>
+                        <CheckBox x:Name="chbPreview" Content="Preview automatically" Padding="12,4" />
+                    </StackPanel>
+                </SplitView.Pane>
 
-                    <!-- Data Grid -->
-                    <ListView Grid.Column="2" Margin="5,0,5,0" x:Name="renameGrid"
-                              Background="{ThemeResource LayerFillColorAltBrush}"
-                              CornerRadius="4"
-                              SelectionMode="Extended" IsItemClickEnabled="False">
-                        
-                        <!-- Header -->
-                        <ListView.Header>
-                            <Grid Padding="12,8"
-                                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                  BorderThickness="0,0,0,1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                <!-- Main area -->
+                <Grid RowDefinitions="*,Auto,Auto">
 
-                                <TextBlock Text="Original File Name"
-                                           FontWeight="SemiBold"
-                                           Grid.Column="0"/>
-                                <TextBlock Text="Renamed File Name"
-                                           FontWeight="SemiBold"
-                                           Grid.Column="1"/>
-                            </Grid>
-                        </ListView.Header>
+                    <Grid ColumnDefinitions="Auto,Auto,*">
+                        <!-- Folder Browser TreeView -->
+                        <TreeView x:Name="folderTreeView" Width="300" MinWidth="200" MaxWidth="600"
+                          ItemInvoked="folderTreeView_ItemInvoked"
+                          Expanding="folderTreeView_Expanding" SelectionChanged="folderTreeView_SelectionChanged">
+                            <TreeView.ItemTemplate>
+                                <DataTemplate x:DataType="TreeViewNode">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <FontIcon Glyph="{x:Bind Content.(models:FolderTreeItem.IconGlyph)}"/>
+                                        <TextBlock Text="{x:Bind Content.(models:FolderTreeItem.Name)}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                        <!-- Grid Splitter -->
+                        <controls:ContentSizer Grid.Column="1"
+                           TargetControl="{x:Bind folderTreeView}" />
 
-                        <!-- Item Template -->
-                        <ListView.ItemTemplate>
-                            <DataTemplate >
-                                <Grid Padding="12,8">
+                        <!-- Data Grid -->
+                        <ListView Grid.Column="2" Margin="5,0,5,0" x:Name="renameGrid"
+                          Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                          CornerRadius="4"
+                          SelectionMode="Extended" IsItemClickEnabled="False">
+
+                            <!-- Header -->
+                            <ListView.Header>
+                                <Grid Padding="12,8"
+                              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                              BorderThickness="0,0,0,1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Text="{Binding Name}" Grid.Column="0" TextTrimming="CharacterEllipsis"
-                                               VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding NewName}" Grid.Column="1" TextTrimming="CharacterEllipsis"
-                                               VerticalAlignment="Center"/>
+                                    <TextBlock Text="Original File Name"
+                                       FontWeight="SemiBold"
+                                       Grid.Column="0"/>
+                                    <TextBlock Text="Renamed File Name"
+                                       FontWeight="SemiBold"
+                                       Grid.Column="1"/>
                                 </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                            </ListView.Header>
+
+                            <!-- Item Template -->
+                            <ListView.ItemTemplate>
+                                <DataTemplate >
+                                    <Grid Padding="12,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding Name}" Grid.Column="0" TextTrimming="CharacterEllipsis"
+                                           VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding NewName}" Grid.Column="1" TextTrimming="CharacterEllipsis"
+                                           VerticalAlignment="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+
+                    <SelectorBar x:Name="SelectorBar" Grid.Row="1" Padding="4,2" SelectionChanged="SelectorBar_SelectionChanged">
+                        <SelectorBarItem x:Name="SelectorBarItemPatterns" Text="Patterns" IsSelected="True">
+                            <SelectorBarItem.Icon>
+                                <FontIcon Glyph="&#xF7B0;" />
+                            </SelectorBarItem.Icon>
+                        </SelectorBarItem>
+                        <SelectorBarItem x:Name="SelectorBarItemSubstitutions" Text="Substitutions" Icon="Switch" />
+                        <SelectorBarItem x:Name="SelectorBarItemInsertDelete" Text="Insert / Delete">
+                            <SelectorBarItem.Icon>
+                                <FontIcon Glyph="&#xE78B;" />
+                            </SelectorBarItem.Icon>
+                        </SelectorBarItem>
+                        <SelectorBarItem x:Name="SelectorBarItemManual" Text="Manual Rename" Icon="Edit" />
+                    </SelectorBar>
+
+                    <Frame x:Name="ContentFrame" Grid.Row="2" Margin="10,5" MinHeight="200" HorizontalAlignment="Stretch"/>
                 </Grid>
+            </SplitView>
 
-                <SelectorBar x:Name="SelectorBar" Grid.Row="1" Padding="4,2" SelectionChanged="SelectorBar_SelectionChanged">
-                    <SelectorBarItem x:Name="SelectorBarItemPatterns" Text="Patterns" IsSelected="True">
-                        <SelectorBarItem.Icon>
-                            <FontIcon Glyph="&#xF7B0;" />
-                        </SelectorBarItem.Icon>
-                    </SelectorBarItem>
-                    <SelectorBarItem x:Name="SelectorBarItemSubstitutions" Text="Substitutions" Icon="Switch" />
-                    <SelectorBarItem x:Name="SelectorBarItemInsertDelete" Text="Insert / Delete">
-                        <SelectorBarItem.Icon>
-                            <FontIcon Glyph="&#xE78B;" />
-                        </SelectorBarItem.Icon>
-                    </SelectorBarItem>
-                    <SelectorBarItem x:Name="SelectorBarItemManual" Text="Manual Rename" Icon="Edit" />
-                </SelectorBar>
+            <!-- Status Bar -->
+            <Grid HorizontalAlignment="Stretch" Grid.Row="2" Padding="4,2" Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="160"/>
+                </Grid.ColumnDefinitions>
 
-                <Frame x:Name="ContentFrame" Grid.Row="2" Margin="10,5" MinHeight="200" HorizontalAlignment="Stretch"/>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,3">
+                    <TextBlock Text="Directory: " FontWeight="Bold"/>
+                    <TextBlock x:Name="directoryText" Text="Select a folder" Margin="5,0,0,0" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,3">
+                    <TextBlock Text="Files: " FontWeight="Bold"/>
+                    <TextBlock x:Name="filesText" Text="0" Margin="5,0,0,0" />
+                </StackPanel>
+
+                <ProgressBar Grid.Column="3" x:Name="progressBar" Width="150" IsIndeterminate="False" Margin="0,0,0,3"/>
             </Grid>
-        </SplitView>
-
-        <!-- Status Bar -->
-        <Grid HorizontalAlignment="Stretch" Grid.Row="2" Padding="4,2" Background="{ThemeResource LayerFillColorAltBrush}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="70"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="160"/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,0,0,3">
-                <TextBlock Text="Directory: " FontWeight="Bold"/>
-                <TextBlock x:Name="directoryText" Text="Select a folder" Margin="5,0,0,0" />
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,3">
-                <TextBlock Text="Files: " FontWeight="Bold"/>
-                <TextBlock x:Name="filesText" Text="0" Margin="5,0,0,0" />
-            </StackPanel>
-
-            <ProgressBar Grid.Column="3" x:Name="progressBar" Width="150" IsIndeterminate="False" Margin="0,0,0,3"/>
         </Grid>
     </Grid>
 </Window>

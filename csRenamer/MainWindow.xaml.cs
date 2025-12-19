@@ -7,15 +7,11 @@ using csRenamer.Services;
 using csRenamer.Models;
 using System.Threading;
 using System.Threading.Tasks;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
 
 namespace csRenamer
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
 
@@ -26,16 +22,14 @@ namespace csRenamer
         public MainWindow()
         {
             this.InitializeComponent();
+            SetWindowProperties();
 
-            // set selected index after controls are initialized
             cbShowOptions.SelectedIndex = 0;
-
             FolderExplorer.LoadDrives(folderTreeView);
             
             if (folderTreeView.RootNodes.Count > 0)            
                 folderTreeView.SelectedNode = folderTreeView.RootNodes[0];
             
-            // Show the Patterns page on startup
             ContentFrame.Navigate(typeof(csRenamer.Pages.Patterns));
 
             _patternDebounceTimer = new DispatcherTimer
@@ -48,6 +42,18 @@ namespace csRenamer
                 _patternDebounceTimer.Stop();
                 await ReloadFilesAsync();
             };
+        }
+
+        private void SetWindowProperties()
+        {
+            this.Title = "csRenamer";
+            titleBar.Subtitle = "v. 0.2.0";
+            this.ExtendsContentIntoTitleBar = true;
+            this.SetTitleBar(titleBar);
+            this.AppWindow.SetIcon("Assets/csRenamer.ico");
+            this.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+            this.AppWindow.Resize(new SizeInt32(900, 600));
+            
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
