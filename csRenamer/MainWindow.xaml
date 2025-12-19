@@ -90,29 +90,26 @@
                                TargetControl="{x:Bind folderTreeView}" />
 
                     <!-- Data Grid -->
-                    <ListView Grid.Column="2" 
-          Margin="5" 
-          x:Name="renameGrid"
-          SelectionMode="Extended"
-          IsItemClickEnabled="False">
-
+                    <ListView Grid.Column="2" Margin="5" x:Name="renameGrid" Background="{ThemeResource SmokeFillColorDefaultBrush}"
+                              SelectionMode="Extended" IsItemClickEnabled="False">
+                        
                         <!-- Header -->
                         <ListView.Header>
-                            <Grid Padding="12,8" 
-              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-              BorderThickness="0,0,0,1">
+                            <Grid Padding="12,8"
+                                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                  BorderThickness="0,0,0,1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="Original File Name" 
-                       FontWeight="SemiBold"
-                       Grid.Column="0"/>
-                                <TextBlock Text="Renamed File Name" 
-                       FontWeight="SemiBold"
-                       Grid.Column="1"/>
+                                <TextBlock Text="Original File Name"
+                                           FontWeight="SemiBold"
+                                           Grid.Column="0"/>
+                                <TextBlock Text="Renamed File Name"
+                                           FontWeight="SemiBold"
+                                           Grid.Column="1"/>
                             </Grid>
                         </ListView.Header>
 
@@ -125,19 +122,14 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Text="filename" 
-                           Grid.Column="0"
-                           TextTrimming="CharacterEllipsis"
-                           VerticalAlignment="Center"/>
-                                    <TextBlock Text="newname" 
-                           Grid.Column="1"
-                           TextTrimming="CharacterEllipsis"
-                           VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Name}" Grid.Column="0" TextTrimming="CharacterEllipsis"
+                                               VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding NewName}" Grid.Column="1" TextTrimming="CharacterEllipsis"
+                                               VerticalAlignment="Center"/>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-
                 </Grid>
 
                 <SelectorBar x:Name="SelectorBar" Grid.Row="1" Padding="4,2" SelectionChanged="SelectorBar_SelectionChanged">

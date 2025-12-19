@@ -162,15 +162,17 @@ namespace csRenamer
 
             progressBar.IsIndeterminate = true;
 
-            directoryText.Text = selectedPath;
-            Files.FileItems.Clear();
+            directoryText.Text = selectedPath;            
 
             try
             {
-                await Task.Run(() =>
+                var items = await Task.Run(() =>
                 {
-                    Files.LoadFiles(selectedPath, showOptions, selectionPattern, recursive, token);
+                    return Files.LoadFiles(selectedPath, showOptions,
+                        selectionPattern, recursive, token);
                 }, token);
+                renameGrid.ItemsSource = items;
+                filesText.Text = items.Count.ToString();
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -184,6 +186,14 @@ namespace csRenamer
 
                 var result = await dialog.ShowAsync();
             }
+
+            btnStop.Visibility = Visibility.Collapsed;
+            progressBar.IsIndeterminate = false;
+        }
+
+        private void RefreshGrid()
+        {
+            return;
         }
     }
 }
