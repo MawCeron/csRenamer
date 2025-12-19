@@ -4,7 +4,8 @@
 
 This project is a C#/.NET 8.0 reimplementation of [pyRenamer](https://github.com/tfree87/pyRenamer), rebuilt using **Windows App SDK (WinUI 3)** to deliver a native Windows experience with a contemporary UI, proper system integration, and full support for light and dark modes.
 
-![screenshot](Screenshot.png)
+![Light Mode](Screenshot.png)
+![Dark Mode](Screenshot_dark.png)
 
 ---
 
