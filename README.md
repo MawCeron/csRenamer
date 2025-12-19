@@ -1,16 +1,20 @@
 # <img src="csRenamer.svg" alt="icon" width="50"/> csRenamer
 
-**csRenamer** is a Windows desktop application built with WPF and .NET 8.0, designed for batch renaming files with ease. It provides a flexible and user-friendly graphical interface for renaming files using patterns, substitutions, insertions, deletions, and more — all with instant preview.
+**csRenamer** is a Windows desktop application built with **WinUI 3** and **.NET 8.0**, designed for batch renaming files with ease. It provides a flexible and modern graphical interface for renaming files using patterns, substitutions, insertions, deletions, and more — all with instant preview.
 
-This project is a C#/.NET 8.0 clone of [pyRenamer](https://github.com/tfree87/pyRenamer), recreated using Windows-native technology to bring the same powerful renaming functionality to the Windows ecosystem with a modern UI.
+This project is a C#/.NET 8.0 reimplementation of [pyRenamer](https://github.com/tfree87/pyRenamer), rebuilt using **Windows App SDK (WinUI 3)** to deliver a native Windows experience with a contemporary UI, proper system integration, and full support for light and dark modes.
 
 ![screenshot](Screenshot.png)
 
+---
+
 ## Features
 
-csRenamer will support the following features:
+csRenamer supports the following features:
+
 - Keep or change file extensions during rename
-- Rename files based on patterns (e.g., rename `1-a.txt` → `a-1.txt` using `{#}-{X}.txt`)
+- Rename files based on patterns  
+  (e.g., rename `1-a.txt` → `a-1.txt` using `{#}-{X}.txt`)
 - Insert characters at specific positions
 - Delete characters from specified positions
 - Replace matching characters or sequences
@@ -20,12 +24,17 @@ csRenamer will support the following features:
 - Remove duplicated characters or symbols
 - Manually rename individual files
 - Live preview of all filename changes before applying
+- Native Windows UI with **automatic light/dark mode support**
+
+---
 
 ## Requirements
 
-- Windows 10 or later
+- Windows 10 (19041) or later
 - [.NET 8.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - Optional: Visual Studio 2022+ for development
+
+---
 
 ## Build and Run
 
@@ -43,27 +52,44 @@ dotnet build
 dotnet run --project csRenamer
 ```
 
-Alternatively, you can open the solution in Visual Studio and press `F5` to run.
+Alternatively, open the solution in Visual Studio and press `F5` to run.
 
-### Installer
+> Note: csRenamer is a **packaged WinUI 3 application (MSIX)**.  
+> When running via Visual Studio, the app is deployed and launched through Windows, not via a standalone portable `.exe`.
 
-For regular users, a pre-built Windows installer will be provided — no setup or compilation required. Just download, install, and start renaming!
+---
+
+## Installer
+
+For regular users, a pre-built Windows installer will be provided using **MSIX packaging** — no manual setup or compilation required.
 
 > The installer will be available on the [Releases](https://github.com/yourusername/csRenamer/releases) page.
 
-Additionally, you can download the ZIP file containing the binaries if you prefer not to use the installer. Please note that .NET 8 must be installed on your system for the application to run.
+You may also download a ZIP containing the packaged binaries if preferred.  
+Please note that the .NET 8 runtime must be installed on your system.
 
-> You can download the ZIP with the binaries from the [Releases](https://github.com/yourusername/csRenamer/releases) page.
+---
 
 ## About This Project
 
-csRenamer is a personal reimplementation of the original **pyRenamer** application. It aims to maintain feature parity while taking advantage of the Windows Presentation Foundation (WPF) framework for a polished and responsive user experience. It’s built for users who want to perform complex batch renaming without relying on command-line tools.
+csRenamer is a personal reimplementation of the original **pyRenamer** application.  
+The goal is to maintain feature parity while leveraging **WinUI 3** to provide:
+
+- Native Windows look & feel
+- Better DPI and scaling behavior
+- Proper dark/light theme integration
+- Modern app lifecycle and deployment via MSIX
+
+The application is built for users who want to perform complex batch renaming tasks without relying on command-line tools, while still keeping performance and clarity.
+
+---
 
 ## Future Plans
 
-Some upcoming features under consideration:
+Planned and potential features include:
+
 - Music and image file renaming using metadata (ID3, EXIF, etc.)
-- Drag-and-drop file support
-- Regex-based renaming
-- Dark mode and UI themes
+- Drag-and-drop file and folder support
+- Regex-based renaming rules
 - Multi-language UI (localization)
+- Additional preview and safety checks before applying changes
