@@ -1,205 +1,229 @@
-﻿using System.IO;
-using System.Windows;
-using System.Windows.Controls;
+using System;
+using System.IO;
+using System.Linq;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using csRenamer.Services;
-using csRenamer.Views;
+using csRenamer.Models;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
 
 namespace csRenamer
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public sealed partial class MainWindow : Window
     {
+
         private CancellationTokenSource? cancellationTokenSource;
+        private readonly FileReload _fileReload = new();
+        private DispatcherTimer _patternDebounceTimer;
 
         public MainWindow()
         {
-            InitializeComponent();
-            FolderExplorer.LoadDrives(treeView);
-        }
+            this.InitializeComponent();
+            SetWindowProperties();
 
-        private void RefreshGrid()
-        {
-            // Refresh the grid by reassigning the ItemsSource
-            renameGrid.ItemsSource = null; // Clear the current binding
-            renameGrid.ItemsSource = FileServices.Files; // Rebind to the updated collection
-        }
+            cbShowOptions.SelectedIndex = 0;
+            FolderExplorer.LoadDrives(folderTreeView);
+            
+            if (folderTreeView.RootNodes.Count > 0)            
+                folderTreeView.SelectedNode = folderTreeView.RootNodes[0];
+            
+            ContentFrame.Navigate(typeof(csRenamer.Pages.Patterns));
 
-        private async void FolderTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var selected = treeView.SelectedItem as TreeViewItem;
-            var mode = comboOptions.SelectedIndex;
-            var pattern = textboxPattern.Text.Trim();
-            var recursively = checkboxRecursively.IsChecked == true;
-            stopButton.Visibility = Visibility.Visible;
-
-            if (selected != null)
+            _patternDebounceTimer = new DispatcherTimer
             {
-                // Cancelar cualquier operación anterior si sigue activa
-                cancellationTokenSource?.Cancel();
-                cancellationTokenSource = new CancellationTokenSource();
-                var token = cancellationTokenSource.Token;
+                Interval = TimeSpan.FromMilliseconds(400)
+            };
 
-                progressBar.IsIndeterminate = true;
-                string selectedPath = selected.Tag?.ToString() ?? "";
-                directoryText.Text = selectedPath;
+            _patternDebounceTimer.Tick += async (s, e) =>
+            {
+                _patternDebounceTimer.Stop();
+                await ReloadFilesAsync();
+            };
+        }
 
-                FileServices.Files.Clear();
+        private void SetWindowProperties()
+        {
+            this.Title = "csRenamer";
+            titleBar.Subtitle = "v. 0.2.0";
+            this.ExtendsContentIntoTitleBar = true;
+            this.SetTitleBar(titleBar);
+            this.AppWindow.SetIcon("Assets/csRenamer.ico");
+            this.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+            this.AppWindow.Resize(new SizeInt32(900, 600));
+            
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            splitView.IsPaneOpen = !splitView.IsPaneOpen;
+        }
+
+        private void RenameButton_Click(object sender, RoutedEventArgs e)
+        {
+            btnRename.Visibility = Visibility.Collapsed;
+            progressBar.IsIndeterminate = true;
+            btnStop.Visibility = Visibility.Visible;
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            _fileReload.Cancel();
+            btnStop.Visibility = Visibility.Collapsed;
+            progressBar.IsIndeterminate = false;
+            btnRename.Visibility = Visibility.Visible;
+        }
+
+        private void SelectorBar_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+        {
+            SelectorBarItem selectedItem = sender.SelectedItem;
+            int currentSelectedIndex = sender.Items.IndexOf(selectedItem);
+
+            switch (currentSelectedIndex)
+            {
+                case 0:
+                    ContentFrame.Navigate(typeof(csRenamer.Pages.Patterns));
+                    break;
+                case 1:
+                    ContentFrame.Navigate(typeof(csRenamer.Pages.Substitutions));
+                    break;
+                case 2:
+                    ContentFrame.Navigate(typeof(csRenamer.Pages.InsertDelete));
+                    break;
+                case 3:
+                    ContentFrame.Navigate(typeof(csRenamer.Pages.Manual));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void folderTreeView_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
+        {
+            var node = args.InvokedItem as TreeViewNode;
+
+            if (node!=null)
+                node.IsExpanded = !node.IsExpanded;
+
+            var folderItem = node?.Content as FolderTreeItem;
+
+            if (folderItem != null)
+                System.Diagnostics.Debug.WriteLine($"Selected: {folderItem.FullPath}");
+        }
+
+        private void folderTreeView_Expanding(TreeView sender, TreeViewExpandingEventArgs args)
+        {
+            if (args.Node.HasUnrealizedChildren)
+            {
+                args.Node.Children.Clear();
+
+                var folderItem = args.Node.Content as FolderTreeItem;
+                if (folderItem == null) return;
 
                 try
                 {
-                    await Task.Run(() =>
+                    var directories = Directory.GetDirectories(folderItem.FullPath);
+
+                    foreach (var dir in directories)
                     {
-                        if (recursively)
-                            FileServices.Files = FileServices.GetFilesRecursively(selectedPath, mode, pattern, token);
-                        else
-                            FileServices.Files = FileServices.GetFiles(selectedPath, mode, pattern, token);
-                    }, token);
+                        var dirInfo = new DirectoryInfo(dir);
+
+                        // Omitir carpetas ocultas o del sistema si quieres
+                        if ((dirInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden ||
+                            (dirInfo.Attributes & FileAttributes.System) == FileAttributes.System)
+                            continue;
+
+                        var childItem = new FolderTreeItem
+                        {
+                            Name = dirInfo.Name,
+                            FullPath = dirInfo.FullName,
+                            IconGlyph = "\uE8B7" // Folder icon
+                        };
+
+                        var childNode = new TreeViewNode
+                        {
+                            Content = childItem,
+                            HasUnrealizedChildren = FolderExplorer.HasSubfolders(dirInfo.FullName)
+                        };
+
+                        args.Node.Children.Add(childNode);
+                    }
                 }
-                catch (OperationCanceledException)
+                catch (UnauthorizedAccessException)
                 {
-                    MessageBox.Show("Carga de archivos cancelada.");
+                    // No tienes permisos para acceder a esta carpeta
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al cargar archivos: {ex.Message}");
+                    // Maneja otros errores
+                    System.Diagnostics.Debug.WriteLine($"Error: {ex.Message}");
                 }
 
-                RefreshGrid();                
-                filesText.Text = renameGrid.Items.Count.ToString();
-                stopButton.Visibility = Visibility.Collapsed;
-                progressBar.IsIndeterminate = false;
+                args.Node.HasUnrealizedChildren = false;
             }
         }
 
-        private void optionsButton_Click(object sender, RoutedEventArgs e)
+        private async void folderTreeView_SelectionChanged(TreeView sender, TreeViewSelectionChangedEventArgs args)
         {
-            optionsButton.Visibility = Visibility.Collapsed;
-            optionsTitle.Visibility = Visibility.Visible;
-            optionsPanel.Visibility = Visibility.Visible;
+            var node = sender.SelectedNodes.FirstOrDefault();
+            if (node?.Content is not FolderTreeItem folderItem)
+                return;
+
+            directoryText.Text = folderItem.FullPath;
+            await ReloadFilesAsync();
         }
 
-        private void closeOptionsButton_Click(object sender, RoutedEventArgs e)
+        private async Task ReloadFilesAsync()
         {
-            optionsButton.Visibility = Visibility.Visible;
-            optionsTitle.Visibility = Visibility.Collapsed;
-            optionsPanel.Visibility = Visibility.Collapsed;
-        }
+            if (string.IsNullOrWhiteSpace(directoryText.Text))
+                return;
 
-        private void quitButton_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void previewButton_Click(object sender, RoutedEventArgs e)
-        {
+            btnStop.Visibility = Visibility.Visible;
             progressBar.IsIndeterminate = true;
-            var option = renameOptions.SelectedIndex;
 
-            switch (option)
+            try
             {
-                case 0:
-                    // Patterns
-                    int counter = 0;
-                    foreach (var file in FileServices.Files)
-                    {
-                        string newName = PatternRenamer.RenameUsingPatterns(file.FileName, file.FullPath, originalPattern.Text, renamedPattern.Text, counter,
-                            keepExtensionCheckbox.IsChecked == true ? Path.GetExtension(file.FullPath).TrimStart('.') : "");
+                var items = await _fileReload.ReloadAsync(
+                    directoryText.Text,
+                    cbShowOptions.SelectedIndex,
+                    tbSelectionPattern.Text,
+                    chbRecursive.IsChecked == true);
 
-                        file.NewName = newName;
-                        counter++;
-                    }                    
-                    break;
-                case 1:
-                    // Subtitutions
-                    foreach (var file in FileServices.Files)
-                    {
-                        string name = keepExtensionCheckbox.IsChecked == true ? Path.GetFileNameWithoutExtension(file.FileName) : file.FileName;
-                        string extension = keepExtensionCheckbox.IsChecked == true ? Path.GetExtension(file.FileName) : "";
-
-                        string newName = name;
-
-                        if (spacesCheck.IsChecked == true)
-                            newName = SubstitutionsRenamer.ReplaceSpaces(newName, spacesCombo.SelectedIndex);
-
-                        if (replaceCheck.IsChecked == true)
-                            newName = SubstitutionsRenamer.ReplaceWith(newName, replaceText.Text, replaceWithText.Text);
-
-                        if (capitalizationCheck.IsChecked == true)
-                            newName = SubstitutionsRenamer.ReplaceCapitalization(newName, capitalizationCombo.SelectedIndex);
-
-                        if (accentsCheck.IsChecked == true)
-                            newName = SubstitutionsRenamer.RemoveAccents(newName);
-
-                        if (duplicatesCheck.IsChecked == true)
-                            newName = SubstitutionsRenamer.RemoveDuplicatedSymbols(newName);
-
-                        file.NewName = newName + extension;
-                    }
-                    break;
-                case 2:
-                    // Insert or Delete
-                    foreach (var file in FileServices.Files)
-                    {
-                        string name = keepExtensionCheckbox.IsChecked == true ? Path.GetFileNameWithoutExtension(file.FileName) : file.FileName;
-                        string extension = keepExtensionCheckbox.IsChecked == true ? Path.GetExtension(file.FileName) : "";
-
-                        string newName = name;
-
-                        if (insertRadioButton.IsChecked == true)
-                        {
-                            if (atEndCheckbox.IsChecked == true)
-                                newName = AnotherRenamers.InsertAt(name, insertText.Text, 0);
-                            else
-                                newName = AnotherRenamers.InsertAt(name, insertText.Text, insertAtNumeric.Value);
-                        }
-                            
-
-                        if (deleteRadioButton.IsChecked == true)
-                            newName = AnotherRenamers.DeleteFrom(name, deleteFromNumeric.Value, deleteToNumeric.Value);
-
-                        file.NewName = newName + extension;
-                    }
-                    break;
-                case 3:
-                    // Manual rename
-                    var selectedFile = renameGrid.SelectedItem as FileServices.FileItem;                    
-                    string fileExtension = keepExtensionCheckbox.IsChecked == true ? Path.GetExtension(selectedFile!.FileName) : "";
-
-                    selectedFile!.NewName = manualRenameText.Text + fileExtension;
-                    break;
+                renameGrid.ItemsSource = items;
+                filesText.Text = items.Count.ToString();
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                await new ContentDialog
+                {
+                    Title = "Error",
+                    Content = ex.Message,
+                    CloseButtonText = "OK"
+                }.ShowAsync();
             }
 
-            RefreshGrid();
-            progressBar.IsIndeterminate = false;            
+            btnStop.Visibility = Visibility.Collapsed;
+            progressBar.IsIndeterminate = false;
         }
 
-        private void stopButton_Click(object sender, RoutedEventArgs e)
+
+        private async void cbShowOptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cancellationTokenSource?.Cancel();
+            await ReloadFilesAsync();
         }
 
-        private void clearButton_Click(object sender, RoutedEventArgs e)
+        private void tbSelectionPattern_TextChanged(object sender, TextChangedEventArgs e)
         {
-            foreach(var file in FileServices.Files)
-            {
-                file.NewName = string.Empty;
-            }
-
-            RefreshGrid();
+            _patternDebounceTimer.Stop();
+            _patternDebounceTimer.Start();
         }
 
-        private void renameButton_Click(object sender, RoutedEventArgs e)
+        private async void chbRecursive_Checked(object sender, RoutedEventArgs e)
         {
-            FileServices.RenameFiles();
-            RefreshGrid();
-        }
-
-        private void aboutButton_Click(object sender, RoutedEventArgs e)
-        {
-            AboutWindow aboutWindow = new AboutWindow(this);
-            aboutWindow.ShowDialog();
+            await ReloadFilesAsync();
         }
     }
 }

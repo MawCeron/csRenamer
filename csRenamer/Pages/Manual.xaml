@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="csRenamer.Pages.Manual"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:csRenamer.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="5,10" RowDefinitions="Auto,Auto" RowSpacing="10">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="New file name" VerticalAlignment="Center"/>
+            <TextBox x:Name="manualNameTextBox" Width="400" Margin="15,0,0,0"/>
+        </StackPanel>
+        <TextBlock Grid.Row="1"
+           Margin="0,12,0,0"
+           Opacity="0.7"
+           FontStyle="Italic"
+           Text="Select the file to rename, change its name and click Preview"/>
+    </Grid>
+</Page>

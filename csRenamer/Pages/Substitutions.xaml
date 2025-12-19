@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="csRenamer.Pages.Substitutions"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:csRenamer.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="5,10" RowDefinitions="Auto,Auto" RowSpacing="10">
+        
+        <StackPanel>
+            <Grid VerticalAlignment="Center"
+                  ColumnDefinitions="Auto,Auto,Auto"
+                  RowDefinitions ="Auto,Auto,Auto,Auto"
+                  RowSpacing="10" ColumnSpacing="5">
+                <CheckBox Grid.Column="0" Grid.Row="0" Content="Spaces" x:Name="spacesCheck" Checked="Check_Checked" Unchecked="Check_Checked"/>
+                <CheckBox Grid.Column="0" Grid.Row="1" Content="Replace" ToolTipService.ToolTip="Replace every instance of the original text with the new one." x:Name="replaceCheck" Checked="Check_Checked" Unchecked="Check_Checked"/>
+                <CheckBox Grid.Column="0" Grid.Row="2" Content="Capitalization" x:Name="capitalizationCheck" Checked="Check_Checked" Unchecked="Check_Checked"/>
+                <CheckBox Grid.Column="0" Grid.Row="3" Content="Remove accents" ToolTipService.ToolTip="Normalize characters by removing accents and locale-specific marks (e.g., á → a, ü → u, č → c)." x:Name="accentsCheck"/>
+                <CheckBox Grid.Column="1" Grid.Row="3" Content="Fix duplicated symbols" Margin="11,5,5,5" ToolTipService.ToolTip="Removes consecutive duplicate symbols, keeping only one (e.g., '---' becomes '-')." x:Name="duplicatesCheck"/>
+                <ComboBox Grid.Column="1" Grid.Row="0" x:Name="spacesCombo" HorizontalAlignment="Stretch" IsEnabled="False">
+                    <ComboBoxItem Content="Spaces to Underscores" IsSelected="True"/>
+                    <ComboBoxItem Content="Underscore to Spaces"/>
+                    <ComboBoxItem Content="Spaces to Dots"/>
+                    <ComboBoxItem Content="Dots to Spaces"/>
+                    <ComboBoxItem Content="Spaces to Dashes"/>
+                    <ComboBoxItem Content="Dashes to Spaces"/>
+                    <ComboBoxItem Content="Remove spaces"/>
+                </ComboBox>
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" x:Name="replacePanel">
+                    <TextBox Width="100" x:Name="replaceText" IsEnabled="False"/>
+                    <TextBlock Text="to" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBox Width="100" x:Name="replaceWithText" IsEnabled="False"/>
+                </StackPanel>
+                <ComboBox Grid.Column="1" Grid.Row="2" x:Name="capitalizationCombo" HorizontalAlignment="Stretch" IsEnabled="False">
+                    <ComboBoxItem Content="All uppercase" IsSelected="True"/>
+                    <ComboBoxItem Content="All downcase"/>
+                    <ComboBoxItem Content="First letter uppercase"/>
+                    <ComboBoxItem Content="First letter uppercase of each word"/>
+                </ComboBox>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>
