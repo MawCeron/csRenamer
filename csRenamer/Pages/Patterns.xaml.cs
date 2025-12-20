@@ -119,4 +119,15 @@ public sealed partial class Patterns : Page
             cbRenamedPattern.SelectedIndex = 0;
         });
     }
+
+    private async void btnPatternsHelp_Click(object sender, RoutedEventArgs e)
+    {
+        PatternHelpDialog.XamlRoot = this.XamlRoot;
+        await PatternHelpDialog.ShowAsync();
+    }
+
+    private void ClosePatternHelp_Click(object sender, RoutedEventArgs e)
+    {
+        PatternHelpDialog.Hide();
+    }
 }

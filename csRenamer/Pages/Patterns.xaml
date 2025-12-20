@@ -73,10 +73,90 @@
             </Button>
         </Grid>
 
-        <TextBlock Grid.Row="3"
-                   Margin="0,12,0,0"
-                   Opacity="0.7"
-                   FontStyle="Italic"
-                   Text="Put the mouse over the text fields to get help on which patterns you can use"/>
+        <HyperlinkButton Grid.Row="3"
+                         Content="Click here to see how patterns work."
+                         x:Name="btnPatternsHelp" Click="btnPatternsHelp_Click"/>
+
+        <ContentDialog
+            x:Name="PatternHelpDialog"
+            XamlRoot="{x:Bind XamlRoot}"
+            IsPrimaryButtonEnabled="False">
+
+            <ContentDialog.TitleTemplate>
+                <DataTemplate>
+                    <Grid
+                        Width="500"
+                        ColumnDefinitions="*,Auto"
+                        VerticalAlignment="Center">
+
+                        <TextBlock Text="Pattern help"
+                       FontSize="18"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"/>
+
+                        <Button Grid.Column="1"
+                    Content="&#xE711;"
+                    FontFamily="Segoe MDL2 Assets"
+                    Click="ClosePatternHelp_Click"/>
+                    </Grid>
+                </DataTemplate>
+            </ContentDialog.TitleTemplate>
+
+            
+                <StackPanel Spacing="12">
+
+                    <!-- ORIGINAL PATTERN -->
+                    <Expander Header="Original file name pattern" MinWidth="490">
+
+                        <TextBlock TextWrapping="Wrap">
+                <Run FontWeight="Bold">{#}</Run> – digits (0–9)<LineBreak/>
+                <Run FontWeight="Bold">{L}</Run> – letters (A–Z, a–z)<LineBreak/>
+                <Run FontWeight="Bold">{C}</Run> – any non-space character (letters / numbers / symbols)<LineBreak/>
+                <Run FontWeight="Bold">{X}</Run> – any character including spaces<LineBreak/>
+                <Run FontWeight="Bold">{@}</Run> – match anything (wildcard)
+                        </TextBlock>
+
+                    </Expander>
+
+                    <!-- RENAMED PATTERN -->
+                    <Expander Header="Renamed file name pattern" MinWidth="490">
+                    <ScrollViewer MaxHeight="250" MinWidth="430" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Visible">
+                        <TextBlock TextWrapping="Wrap">
+
+                <Bold>Pattern placeholders:</Bold><LineBreak/>
+                Use <Run FontWeight="Bold">{1}</Run>, <Run FontWeight="Bold">{2}</Run>, etc., to insert captured parts.<LineBreak/>
+                Use <Run FontWeight="Bold">{num}</Run> to add a number.<LineBreak/>
+                Use <Run FontWeight="Bold">{num2}</Run> for zero-padded numbers.<LineBreak/>
+                Use <Run FontWeight="Bold">{num+10}</Run> to start from 10.<LineBreak/>
+                Use <Run FontWeight="Bold">{dir}</Run> to insert the folder name.<LineBreak/>
+
+                <LineBreak/>
+
+                <Bold>Date replacements:</Bold><LineBreak/>
+                <Run FontWeight="Bold">{date}</Run> → 20250414<LineBreak/>
+                <Run FontWeight="Bold">{datedelim}</Run> → 2025-04-14<LineBreak/>
+                <Run FontWeight="Bold">{year}</Run> → 2025<LineBreak/>
+                <Run FontWeight="Bold">{monthname}</Run> → April<LineBreak/>
+
+                <LineBreak/>
+
+                <Italic>
+                    * You can prefix these with "create" or "modify" to use metadata.
+                </Italic><LineBreak/>
+                Example: <Run FontStyle="Italic">{createdate}</Run>
+
+                <LineBreak/><LineBreak/>
+
+                <Bold>Random numbers:</Bold><LineBreak/>
+                <Run FontWeight="Bold">{rand}</Run> → random 0–100<LineBreak/>
+                <Run FontWeight="Bold">{rand10-20}</Run> → random 10–20<LineBreak/>
+                <Run FontWeight="Bold">{rand,3}</Run> → padded random
+
+                        </TextBlock>
+                    </ScrollViewer>
+                </Expander>
+
+                </StackPanel>            
+        </ContentDialog>
     </Grid>
 </Page>
