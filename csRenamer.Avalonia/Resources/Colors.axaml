@@ -7,6 +7,11 @@
     <SolidColorBrush x:Key="ButtonHover" Color="#e9e9e9" />
     <SolidColorBrush x:Key="ButtonPressed" Color="#f0ebf1" />
 
+    <!-- Accent -->
+    <SolidColorBrush x:Key="Accent" Color="#2563EB" />
+    <SolidColorBrush x:Key="AccentHover" Color="#1D4ED8" />
+    <SolidColorBrush x:Key="AccentPressed" Color="#1E40AF" />
+
     <!-- Text Colors -->
     <SolidColorBrush x:Key="MainText" Color="#1f1f1f" />
     <SolidColorBrush x:Key="SecondaryText" Color="#c3c3c3" />
