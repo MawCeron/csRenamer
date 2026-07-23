@@ -51,10 +51,7 @@ namespace csRenamer
                 {
                     await Task.Run(() =>
                     {
-                        if (recursively)
-                            FileServices.Files = FileServices.GetFilesRecursively(selectedPath, mode, pattern, token);
-                        else
-                            FileServices.Files = FileServices.GetFiles(selectedPath, mode, pattern, token);
+                        FileServices.Files = FileServices.GetFiles(selectedPath, mode, pattern, recursively, token);
                     }, token);
                 }
                 catch (OperationCanceledException)

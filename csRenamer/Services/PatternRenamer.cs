@@ -83,27 +83,35 @@ namespace csRenamer.Services
 
         private static string ReplaceDatePlaceHolders(string input)
         {
-            DateTime now = DateTime.Now;
+            return ApplyDatePlaceholders(input, DateTime.Now, "")
+                .Replace("{dateshort}", DateTime.Now.ToString("yyMMdd"))
+                .Replace("{dateshortdelim}", DateTime.Now.ToString("yy-MM-dd"));
+        }
 
+        private static string ReplaceFileMetadataPlaceholders(string input, string name, string path)
+        {
+            input = ApplyDatePlaceholders(input, File.GetCreationTime(path), "create");
+            return ApplyDatePlaceholders(input, File.GetLastWriteTime(path), "modify");
+        }
+
+        private static string ApplyDatePlaceholders(string input, DateTime date, string prefix)
+        {
             return input
-                .Replace("{date}", now.ToString("yyyyMMdd"))
-                .Replace("{dateshort}", now.ToString("yyMMdd"))
-                .Replace("{datedelim}", now.ToString("yyyy-MM-dd"))
-                .Replace("{dateshortdelim}", now.ToString("yy-MM-dd"))
-                .Replace("{year}", now.ToString("yyyy"))
-                .Replace("{month}", now.ToString("MM"))
-                .Replace("{monthname}", now.ToString("MMMM"))
-                .Replace("{monthsimp}", now.ToString("MMM"))
-                .Replace("{day}", now.ToString("dd"))
-                .Replace("{dayname}", now.ToString("dddd"))
-                .Replace("{daysimp}", now.ToString("ddd"));
+                .Replace("{" + prefix + "date}", date.ToString("yyyyMMdd"))
+                .Replace("{" + prefix + "datedelim}", date.ToString("yyyy-MM-dd"))
+                .Replace("{" + prefix + "year}", date.ToString("yyyy"))
+                .Replace("{" + prefix + "month}", date.ToString("MM"))
+                .Replace("{" + prefix + "monthname}", date.ToString("MMMM"))
+                .Replace("{" + prefix + "monthsimp}", date.ToString("MMM"))
+                .Replace("{" + prefix + "day}", date.ToString("dd"))
+                .Replace("{" + prefix + "dayname}", date.ToString("dddd"))
+                .Replace("{" + prefix + "daysimp}", date.ToString("ddd"));
         }
 
         private static string ReplaceDirectoyPlaceHolders(string input, string originalPath)
         {
             string directoryName = Path.GetFileName(Path.GetDirectoryName(originalPath));
-            return input
-                .Replace("{dir}", directoryName);
+            return input.Replace("{dir}", directoryName);
         }
 
         private static string ReplaceRandomPlaceHolders(string input)
@@ -131,34 +139,6 @@ namespace csRenamer.Services
                 int rand = new Random().Next(min, max + 1);
                 return rand.ToString().PadLeft(padding, '0');
             });
-        }
-
-        private static string ReplaceFileMetadataPlaceholders(string input, string name, string path)
-        {
-            DateTime created = File.GetCreationTime(path);
-            DateTime modified = File.GetLastWriteTime(path);
-
-            return input
-                // Created
-                .Replace("{createdate}", created.ToString("yyyyMMdd"))
-                .Replace("{createdatedelim}", created.ToString("yyyy-MM-dd"))
-                .Replace("{createyear}", created.ToString("yyyy"))
-                .Replace("{createmonth}", created.ToString("MM"))
-                .Replace("{createmonthname}", created.ToString("MMMM"))
-                .Replace("{createmonthsimp}", created.ToString("MMM"))
-                .Replace("{createday}", created.ToString("dd"))
-                .Replace("{createdayname}", created.ToString("dddd"))
-                .Replace("{createdaysimp}", created.ToString("ddd"))
-                // Modified
-                .Replace("{modifydate}", modified.ToString("yyyyMMdd"))
-                .Replace("{modifydatedelim}", modified.ToString("yyyy-MM-dd"))
-                .Replace("{modifyyear}", modified.ToString("yyyy"))
-                .Replace("{modifymonth}", modified.ToString("MM"))
-                .Replace("{modifymonthname}", modified.ToString("MMMM"))
-                .Replace("{modifymonthsimp}", modified.ToString("MMM"))
-                .Replace("{modifyday}", modified.ToString("dd"))
-                .Replace("{modifydayname}", modified.ToString("dddd"))
-                .Replace("{modifydaysimp}", modified.ToString("ddd"));
         }
     }
 }
