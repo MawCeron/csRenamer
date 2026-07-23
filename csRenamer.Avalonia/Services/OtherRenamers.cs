@@ -2,7 +2,7 @@
 
 namespace csRenamer.Avalonia.Services
 {
-    public class AnotherRenamers
+    public class OtherRenamers
     {
         public static string InsertAt(string name, string text, int position)
         {
