@@ -1,65 +1,51 @@
-﻿using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.IO;
 
-namespace csRenamer.Avalonia.Services
+namespace csRenamer.Avalonia.Services;
+
+public enum RenameStatus
 {
-    class FileServices
+    None,
+    Ok,
+    Conflict,
+    Skipped
+}
+
+class FileServices
+{
+    public class FileItem
     {
-        public class FileItem
+        public string FileName { get; set; } = "";
+        public string FullPath { get; set; } = "";
+        public string NewName { get; set; } = "";
+        public RenameStatus Status { get; set; } = RenameStatus.None;
+    }
+
+    public static ObservableCollection<FileItem> Files = new();
+
+    public static List<FileItem> GetFiles(string dir, int mode, string pattern, bool recursive, CancellationToken token)
+    {
+        var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+        List<FileItem> files = new();
+
+        List<string> auxiliary = string.IsNullOrEmpty(pattern)
+            ? Directory.GetFileSystemEntries(dir).ToList()
+            : Directory.GetFileSystemEntries(dir, pattern, searchOption).ToList();
+
+        auxiliary.Sort(StringComparer.OrdinalIgnoreCase);
+
+        foreach (string element in auxiliary)
         {
-            public string FileName { get; set; }
-            public string FullPath { get; set; }
-            public string NewName { get; set; }
-        }
+            token.ThrowIfCancellationRequested();
+            FileAttributes attributes = File.GetAttributes(element);
+            bool isHidden = (attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
-        public static List<FileItem> Files = new List<FileItem>();
-
-        public static List<FileItem> GetFiles(string dir, int mode, string pattern, bool recursive, CancellationToken token)
-        {
-            var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
-            List<FileItem> files = new List<FileItem>();
-
-            List<string> auxiliary = string.IsNullOrEmpty(pattern)
-                ? Directory.GetFileSystemEntries(dir).ToList()
-                : Directory.GetFileSystemEntries(dir, pattern, searchOption).ToList();
-
-            auxiliary.Sort(StringComparer.OrdinalIgnoreCase);
-
-            foreach (string element in auxiliary)
+            switch (mode)
             {
-                token.ThrowIfCancellationRequested();
-                FileAttributes attributes = File.GetAttributes(element);
-                bool isHidden = (attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-
-                switch (mode)
-                {
-                    case 0: // Files
-                        if (File.Exists(element))
-                        {
-                            if (!isHidden || string.IsNullOrEmpty(pattern))
-                            {
-                                files.Add(new FileItem
-                                {
-                                    FileName = Path.GetFileName(element),
-                                    FullPath = element
-                                });
-                            }
-                        }
-                        break;
-                    case 1: // Folders
-                        if (Directory.Exists(element))
-                        {
-                            if (!isHidden || string.IsNullOrEmpty(pattern))
-                            {
-                                files.Add(new FileItem
-                                {
-                                    FileName = Path.GetFileName(element),
-                                    FullPath = element
-                                });
-                            }
-                        }
-                        break;
-                    case 2: // All
+                case 0: // Files
+                    if (File.Exists(element))
+                    {
                         if (!isHidden || string.IsNullOrEmpty(pattern))
                         {
                             files.Add(new FileItem
@@ -68,43 +54,67 @@ namespace csRenamer.Avalonia.Services
                                 FullPath = element
                             });
                         }
-                        break;
-                }
+                    }
+                    break;
+                case 1: // Folders
+                    if (Directory.Exists(element))
+                    {
+                        if (!isHidden || string.IsNullOrEmpty(pattern))
+                        {
+                            files.Add(new FileItem
+                            {
+                                FileName = Path.GetFileName(element),
+                                FullPath = element
+                            });
+                        }
+                    }
+                    break;
+                case 2: // All
+                    if (!isHidden || string.IsNullOrEmpty(pattern))
+                    {
+                        files.Add(new FileItem
+                        {
+                            FileName = Path.GetFileName(element),
+                            FullPath = element
+                        });
+                    }
+                    break;
             }
-
-            return files;
         }
 
-        public static void RenameFiles()
+        return files;
+    }
+
+    public static void RenameFiles()
+    {
+        foreach (var file in Files)
         {
-            foreach (var file in Files)
+            if (string.IsNullOrWhiteSpace(file.NewName) || file.NewName == file.FileName)
             {
-                // Validate that NewName is not empty and is different from the current name
-                if (string.IsNullOrWhiteSpace(file.NewName) || file.NewName == file.FileName)
-                    continue;
+                file.Status = RenameStatus.Skipped;
+                continue;
+            }
 
-                string directory = Path.GetDirectoryName(file.FullPath)!;
-                string newFullPath = Path.Combine(directory, file.NewName);
+            string directory = Path.GetDirectoryName(file.FullPath)!;
+            string newFullPath = Path.Combine(directory, file.NewName);
 
-                // Check if a file with the new name already exists
-                if (File.Exists(newFullPath))
-                    continue;
+            if (File.Exists(newFullPath))
+            {
+                file.Status = RenameStatus.Conflict;
+                continue;
+            }
 
-                try
-                {
-                    File.Move(file.FullPath, newFullPath);
-
-                    // Update properties if the rename was successful
-                    file.FileName = file.NewName;
-                    file.FullPath = newFullPath;
-                }
-                catch (Exception)
-                {
-                    // If an error occurs, skip and leave the FileItem unchanged
-                    continue;
-                }
+            try
+            {
+                File.Move(file.FullPath, newFullPath);
+                file.FileName = file.NewName;
+                file.FullPath = newFullPath;
+                file.Status = RenameStatus.Ok;
+            }
+            catch (Exception)
+            {
+                file.Status = RenameStatus.Skipped;
             }
         }
-
     }
 }
