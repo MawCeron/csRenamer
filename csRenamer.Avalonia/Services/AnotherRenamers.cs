@@ -1,6 +1,6 @@
 ﻿
 
-namespace csRenamer.Services
+namespace csRenamer.Avalonia.Services
 {
     public class AnotherRenamers
     {

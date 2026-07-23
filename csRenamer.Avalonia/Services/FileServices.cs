@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace csRenamer.Services
+namespace csRenamer.Avalonia.Services
 {
     class FileServices
     {

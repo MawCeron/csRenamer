@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text;
 
-namespace csRenamer.Services
+namespace csRenamer.Avalonia.Services
 {
     public class SubstitutionsRenamer
     {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace csRenamer.Services
+namespace csRenamer.Avalonia.Services
 {
     public static class PatternRenamer
     {
