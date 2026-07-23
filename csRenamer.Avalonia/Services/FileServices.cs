@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace csRenamer.Avalonia.Services;
 
@@ -13,12 +15,47 @@ public enum RenameStatus
 
 class FileServices
 {
-    public class FileItem
+    public class FileItem : INotifyPropertyChanged
     {
-        public string FileName { get; set; } = "";
-        public string FullPath { get; set; } = "";
-        public string NewName { get; set; } = "";
-        public RenameStatus Status { get; set; } = RenameStatus.None;
+        private string _fileName = "";
+        private string _fullPath = "";
+        private string _newName = "";
+        private RenameStatus _status = RenameStatus.None;
+
+        public string FileName
+        {
+            get => _fileName;
+            set { _fileName = value; OnPropertyChanged(); }
+        }
+
+        public string FullPath
+        {
+            get => _fullPath;
+            set { _fullPath = value; OnPropertyChanged(); }
+        }
+
+        public string NewName
+        {
+            get => _newName;
+            set { _newName = value; OnPropertyChanged(); }
+        }
+
+        public RenameStatus Status
+        {
+            get => _status;
+            set { _status = value; OnPropertyChanged(); OnPropertyChanged(nameof(StatusIcon)); }
+        }
+
+        public string StatusIcon => Status switch
+        {
+            RenameStatus.Ok => "avares://csRenamer.Avalonia/Assets/Icons/check.svg",
+            RenameStatus.Conflict => "avares://csRenamer.Avalonia/Assets/Icons/alert.svg",
+            _ => ""
+        };
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
     public static ObservableCollection<FileItem> Files = new();

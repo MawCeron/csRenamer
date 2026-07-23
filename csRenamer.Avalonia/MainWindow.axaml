@@ -1,9 +1,342 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:services="using:csRenamer.Avalonia.Services"
         x:Class="csRenamer.Avalonia.MainWindow"
-        Title="csRenamer.Avalonia">
-    Welcome to Avalonia!
+        Title="csRenamer" Height="600" Width="900"
+        Background="{StaticResource Background}"
+        Icon="avares://csRenamer.Avalonia/Assets/Icons/csRenamer.svg">
+    <DockPanel>
+
+        <!-- Status Bar -->
+        <Border DockPanel.Dock="Bottom" Background="{StaticResource Background}"
+                BorderBrush="{StaticResource ButtonBorder}" BorderThickness="0,1,0,0"
+                Padding="5,3">
+            <Grid ColumnDefinitions="*,70,22,160">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text="Directory: " FontWeight="Bold"/>
+                    <TextBlock x:Name="directoryText" Text="Select a folder" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text="Files: " FontWeight="Bold"/>
+                    <TextBlock x:Name="filesText" Text="0" />
+                </StackPanel>
+                <Button Grid.Column="2" x:Name="stopButton" Width="16" Height="16"
+                        HorizontalAlignment="Right" Theme="{StaticResource CloseButton}"
+                        Margin="0,0,5,0" Click="stopButton_Click" IsVisible="False">
+                    <Image Source="avares://csRenamer.Avalonia/Assets/Icons/square.svg"
+                           Height="12" Width="12" Stretch="Fill"/>
+                </Button>
+                <ProgressBar Grid.Column="3" x:Name="progressBar" Width="150" Height="14"
+                             Minimum="0" Maximum="100" IsIndeterminate="False"/>
+            </Grid>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Grid ColumnDefinitions="2*,5*,Auto" RowDefinitions="4*,210">
+
+            <!-- Folder Browser -->
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Folder Browser" Margin="5,5,5,0" FontWeight="Medium"/>
+                <TreeView Grid.Row="1" Margin="5" x:Name="treeView"
+                          SelectionChanged="FolderTreeView_SelectionChanged">
+                    <TreeView.ItemTemplate>
+                        <TreeDataTemplate ItemsSource="{Binding Children}"
+                                          x:DataType="services:TreeNode">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Icon}" Width="20" Height="20" Stretch="Fill"/>
+                                <TextBlock Text="{Binding Name}" Margin="5,0" />
+                            </StackPanel>
+                        </TreeDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </Grid>
+
+            <!-- Rename Preview Table -->
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Rename Preview" Margin="5,5,5,0" FontWeight="Medium"/>
+                <DataGrid Grid.Row="1" AutoGenerateColumns="False" Margin="5"
+                          x:Name="renameGrid" Theme="{StaticResource DataGrid}" IsReadOnly="True"
+                          x:DataType="services:FileServices+FileItem">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Original File Name" Binding="{Binding FileName}" Width="*"/>
+                        <DataGridTextColumn Header="Renamed File Name" Binding="{Binding NewName}" Width="*"/>
+                        <DataGridTemplateColumn Header="Status" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="services:FileServices+FileItem">
+                                    <Image Source="{Binding StatusIcon}" Width="16" Height="16" Stretch="Uniform"
+                                           HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+            <!-- Options panel -->
+            <Grid Grid.Row="0" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Margin="5,5,8,0" Width="20" Height="20" HorizontalAlignment="Center"
+                        Theme="{StaticResource ToolButton}" x:Name="optionsButton"
+                        Click="optionsButton_Click">
+                    <Image Source="avares://csRenamer.Avalonia/Assets/Icons/settings.svg"
+                           Height="16" Width="16" Stretch="Fill"/>
+                </Button>
+                <Grid Margin="5,5,5,0" IsVisible="False" x:Name="optionsTitle"
+                      ColumnDefinitions="170,*">
+                    <TextBlock Text="Options" FontWeight="Medium"/>
+                    <Button Grid.Column="1" Width="20" Height="20" HorizontalAlignment="Right"
+                            Theme="{StaticResource CloseButton}" x:Name="closeOptionsButton"
+                            Click="closeOptionsButton_Click">
+                        <Image Source="avares://csRenamer.Avalonia/Assets/Icons/x.svg"
+                               Height="12" Width="12" Stretch="Fill"/>
+                    </Button>
+                </Grid>
+                <StackPanel Grid.Row="1" Margin="5" IsVisible="False" x:Name="optionsPanel">
+                    <ComboBox Margin="0,0,0,10" Width="170" x:Name="comboOptions">
+                        <ComboBoxItem Content="Files" Tag="0" IsSelected="True"/>
+                        <ComboBoxItem Content="Directories" Tag="1"/>
+                        <ComboBoxItem Content="Files and directories" Tag="2"/>
+                    </ComboBox>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Text="Selection pattern" />
+                        <TextBox Text="*" x:Name="textboxPattern" Margin="5,0,0,0" Width="75"/>
+                    </StackPanel>
+                    <CheckBox Content="Add files recursively" Margin="0,0,0,10" x:Name="checkboxRecursively"/>
+                    <CheckBox Content="Keep extensions" Margin="0,0,0,10" x:Name="keepExtensionCheckbox"/>
+                    <CheckBox Content="Preview automatically" Margin="0,0,0,10"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Bottom area: Tabs + Action Buttons -->
+            <Grid Grid.Row="1" Grid.ColumnSpan="3" Margin="0,0,0,5"
+                  ColumnDefinitions="*,110">
+                <!-- Action Buttons -->
+                <Grid Grid.Column="1" Margin="0,28,0,0"
+                      RowDefinitions="*,Auto">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                        <Button Content="Preview" Margin="0,0,0,5"
+                                Theme="{StaticResource ButtonWithText}"
+                                Tag="avares://csRenamer.Avalonia/Assets/Icons/search.svg"
+                                Width="90" Background="{StaticResource Button}"
+                                BorderBrush="{StaticResource ButtonBorder}"
+                                x:Name="previewButton" Click="previewButton_Click"/>
+                        <Button Content="Clear" Margin="0,0,0,5"
+                                Theme="{StaticResource ButtonWithText}"
+                                Tag="avares://csRenamer.Avalonia/Assets/Icons/trash-2.svg"
+                                Width="90" Background="{StaticResource Button}"
+                                BorderBrush="{StaticResource ButtonBorder}"
+                                x:Name="clearButton" Click="clearButton_Click"/>
+                        <Button Content="Rename" Margin="0,0,0,5"
+                                Theme="{StaticResource PrimaryButton}"
+                                Width="90"
+                                x:Name="renameButton" Click="renameButton_Click"/>
+                        <Button Content="Quit"
+                                Theme="{StaticResource ButtonWithText}"
+                                Tag="avares://csRenamer.Avalonia/Assets/Icons/log-out.svg"
+                                Width="90" Background="{StaticResource Button}"
+                                BorderBrush="{StaticResource ButtonBorder}"
+                                x:Name="quitButton" Click="quitButton_Click"/>
+                    </StackPanel>
+
+                    <Button Grid.Row="1" Width="30" Height="30"
+                            HorizontalAlignment="Right" Theme="{StaticResource QuestionButton}"
+                            x:Name="aboutButton" Margin="0,0,20,10"
+                            Click="aboutButton_Click">
+                        <Image Source="avares://csRenamer.Avalonia/Assets/Icons/circle-help.svg"
+                               Height="24" Width="24" Stretch="Fill"/>
+                    </Button>
+                </Grid>
+
+                <!-- Tab Control for rename options -->
+                <TabControl Grid.Column="0" Margin="5" x:Name="renameOptions">
+                    <!-- Patterns Tab -->
+                    <TabItem Header="Patterns" Tag="0">
+                        <Grid Margin="10">
+                            <StackPanel>
+                                <TextBlock Text="Rename files using patterns" Margin="0,5" FontWeight="Medium"/>
+                                <Grid Margin="0,5" VerticalAlignment="Center"
+                                      ColumnDefinitions="150,*,30,30">
+                                    <TextBlock Text="Original file name pattern"/>
+                                    <TextBox Grid.Column="1" Margin="10,0,10,0" Height="24"
+                                             x:Name="originalPattern" Text=""
+                                             ToolTip.Tip="Pattern: use {#} for digits, {L} for letters, {C} for non-space chars, {X} for any char, {@} for wildcard"/>
+                                    <Button Grid.Column="2" Width="24" Height="24"
+                                            Theme="{StaticResource CloseButton}" VerticalAlignment="Center"
+                                            Background="{StaticResource Button}" BorderBrush="{StaticResource ButtonBorder}">
+                                        <Image Source="avares://csRenamer.Avalonia/Assets/Icons/save.svg"
+                                               Height="16" Width="16" Stretch="Fill"/>
+                                    </Button>
+                                    <Button Grid.Column="3" Width="24" Height="24"
+                                            Theme="{StaticResource CloseButton}" VerticalAlignment="Center"
+                                            Background="{StaticResource Button}" BorderBrush="{StaticResource ButtonBorder}">
+                                        <Image Source="avares://csRenamer.Avalonia/Assets/Icons/pencil-line.svg"
+                                               Height="16" Width="16" Stretch="Fill"/>
+                                    </Button>
+                                </Grid>
+                                <Grid Margin="0,5" VerticalAlignment="Center"
+                                      ColumnDefinitions="150,*,30,30">
+                                    <TextBlock Text="Renamed file name pattern"/>
+                                    <TextBox Grid.Column="1" Margin="10,0,10,0" Height="24"
+                                             x:Name="renamedPattern" Text=""
+                                             ToolTip.Tip="Use {1}, {2} for captured parts. {num} for counter, {date} for date, {rand} for random, {dir} for folder name."/>
+                                    <Button Grid.Column="2" Width="24" Height="24"
+                                            Theme="{StaticResource CloseButton}" VerticalAlignment="Center"
+                                            Background="{StaticResource Button}" BorderBrush="{StaticResource ButtonBorder}">
+                                        <Image Source="avares://csRenamer.Avalonia/Assets/Icons/save.svg"
+                                               Height="16" Width="16" Stretch="Fill"/>
+                                    </Button>
+                                    <Button Grid.Column="3" Width="24" Height="24"
+                                            Theme="{StaticResource CloseButton}" VerticalAlignment="Center"
+                                            Background="{StaticResource Button}" BorderBrush="{StaticResource ButtonBorder}">
+                                        <Image Source="avares://csRenamer.Avalonia/Assets/Icons/pencil-line.svg"
+                                               Height="16" Width="16" Stretch="Fill"/>
+                                    </Button>
+                                </Grid>
+                                <TextBlock Text="Put the mouse over the text fields to get help on which patterns you can use" Margin="0,5" FontStyle="Italic"/>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- Substitutions Tab -->
+                    <TabItem Header="Substitutions" Tag="1">
+                        <Grid Margin="10">
+                            <StackPanel>
+                                <TextBlock Text="Common substitutions" Margin="0,5" FontWeight="Medium"/>
+                                <Grid Margin="0,5" VerticalAlignment="Center"
+                                      ColumnDefinitions="Auto,Auto">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <CheckBox Grid.Row="0" Content="Spaces" Margin="5" x:Name="spacesCheck"/>
+                                    <CheckBox Grid.Row="1" Content="Replace" Margin="5"
+                                              ToolTip.Tip="Replace every instance of the original text with the new one."
+                                              x:Name="replaceCheck"/>
+                                    <CheckBox Grid.Row="2" Content="Capitalization" Margin="5" x:Name="capitalizationCheck"/>
+                                    <CheckBox Grid.Row="3" Content="Remove accents" Margin="5"
+                                              ToolTip.Tip="Normalize characters by removing accents and locale-specific marks."
+                                              x:Name="accentsCheck"/>
+                                    <CheckBox Grid.Row="3" Grid.Column="1" Content="Fix duplicated symbols"
+                                              Margin="11,5,5,5"
+                                              ToolTip.Tip="Removes consecutive duplicate symbols, keeping only one."
+                                              x:Name="duplicatesCheck"/>
+
+                                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="11,5,5,5"
+                                              x:Name="spacesCombo"
+                                              IsEnabled="{Binding IsChecked, ElementName=spacesCheck}"
+                                              Theme="{StaticResource DisabledComboBoxStyle}">
+                                        <ComboBoxItem Content="Spaces to Underscores" IsSelected="True"/>
+                                        <ComboBoxItem Content="Underscore to Spaces"/>
+                                        <ComboBoxItem Content="Spaces to Dots"/>
+                                        <ComboBoxItem Content="Dots to Spaces"/>
+                                        <ComboBoxItem Content="Spaces to Dashes"/>
+                                        <ComboBoxItem Content="Dashes to Spaces"/>
+                                        <ComboBoxItem Content="Remove spaces"/>
+                                    </ComboBox>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal"
+                                                Margin="5" x:Name="replacePanel"
+                                                IsEnabled="{Binding IsChecked, ElementName=replaceCheck}">
+                                        <TextBox Width="100" Margin="5,0,0,0" x:Name="replaceText"/>
+                                        <TextBlock Text="to" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBox Width="100" Margin="5,0,0,0" x:Name="replaceWithText"/>
+                                    </StackPanel>
+                                    <ComboBox Grid.Row="2" Grid.Column="1" Margin="11,5,5,5"
+                                              x:Name="capitalizationCombo"
+                                              IsEnabled="{Binding IsChecked, ElementName=capitalizationCheck}"
+                                              Theme="{StaticResource DisabledComboBoxStyle}">
+                                        <ComboBoxItem Content="All uppercase" IsSelected="True"/>
+                                        <ComboBoxItem Content="All downcase"/>
+                                        <ComboBoxItem Content="First letter uppercase"/>
+                                        <ComboBoxItem Content="First letter uppercase of each word"/>
+                                    </ComboBox>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- Insert / Delete Tab -->
+                    <TabItem Header="Insert / Delete" Tag="2">
+                        <Grid Margin="10">
+                            <StackPanel>
+                                <TextBlock Text="Insert or delete characters from filenames" Margin="0,5" FontWeight="Medium"/>
+                                <Grid Margin="0,5" VerticalAlignment="Center"
+                                      RowDefinitions="Auto,Auto">
+
+                                    <!-- Insert row -->
+                                    <Grid Grid.Row="0" Margin="0,5" Height="25"
+                                          ColumnDefinitions="75,*">
+                                        <RadioButton Content="Insert" Margin="0,0,5,0"
+                                                     VerticalAlignment="Center" x:Name="insertRadioButton"
+                                                     IsChecked="True" GroupName="ActionGroup" />
+                                        <Grid Grid.Column="1"
+                                              IsEnabled="{Binding IsChecked, ElementName=insertRadioButton}"
+                                              ColumnDefinitions="*,30,75,Auto,*">
+                                            <TextBox Grid.Column="0" Margin="5,0,0,0" x:Name="insertText"/>
+                                            <TextBlock Grid.Column="1" Text="at" Margin="5,0,0,0"
+                                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <NumericUpDown Grid.Column="2" Height="25" Minimum="1"
+                                                           x:Name="insertAtNumeric"
+                                                           IsEnabled="{Binding IsChecked, ElementName=atEndCheckbox, Converter={StaticResource NegateBool}}"/>
+                                            <CheckBox Grid.Column="3" Content="or at the end" Margin="5,0,0,0"
+                                                      VerticalAlignment="Center" x:Name="atEndCheckbox"/>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!-- Delete row -->
+                                    <Grid Grid.Row="1" Margin="0,5" Height="25"
+                                          ColumnDefinitions="Auto,*">
+                                        <RadioButton Content="Delete from" Margin="0,0,5,0"
+                                                     VerticalAlignment="Center" x:Name="deleteRadioButton"
+                                                     GroupName="ActionGroup" />
+                                        <Grid Grid.Column="1"
+                                              IsEnabled="{Binding IsChecked, ElementName=deleteRadioButton}"
+                                              ColumnDefinitions="75,30,75,*">
+                                            <NumericUpDown Grid.Column="0" Height="25" Minimum="1"
+                                                           x:Name="deleteFromNumeric"/>
+                                            <TextBlock Grid.Column="1" Text="to" Margin="5,0,0,0"
+                                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <NumericUpDown Grid.Column="2" Height="25" Minimum="1" Value="5"
+                                                           x:Name="deleteToNumeric"/>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- Manual Rename Tab -->
+                    <TabItem Header="Manual rename" Tag="3">
+                        <Grid Margin="10">
+                            <StackPanel>
+                                <TextBlock Text="Rename files manually" Margin="0,5" FontWeight="Medium"/>
+                                <Grid Margin="0,5" VerticalAlignment="Center"
+                                      ColumnDefinitions="100,*">
+                                    <TextBlock Text="New file name"/>
+                                    <TextBox Grid.Column="1" Margin="10,0,10,0" Height="24"
+                                             x:Name="manualRenameText" />
+                                </Grid>
+                                <TextBlock Text="Select the file to rename, change its name and click Preview"
+                                           Margin="0,5" FontStyle="Italic"/>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+
+    </DockPanel>
 </Window>
