@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+﻿
 
 namespace csRenamer.Services
 {
@@ -11,32 +6,15 @@ namespace csRenamer.Services
     {
         public static string InsertAt(string name, string text, int position)
         {
-            string newName = string.Empty;
-            position = position - 1; // Adjust for 0-based index
-
-            if (position >= 0 && position <= name.Length)
-            {
-                string ini = name.Substring(0, position);
-                string end = name.Substring(position);
-                newName = ini + text + end;
-            }
-            else
-            {
-                newName = name + text;
-            }
-
-            return newName;
+            position = Math.Clamp(position, 0, name.Length);
+            return name.Insert(position, text);
         }
 
-        public static string DeleteFrom(string name, int initialPosition, int endPosition)
+        public static string DeleteFrom(string name, int from, int to)
         {
-            initialPosition = initialPosition - 1; // Adjust for 0-based index
-            endPosition = endPosition - 1; // Adjust for 0-based index
-
-            string textIni = name.Substring(0, initialPosition);
-            string textEnd = name.Substring(endPosition + 1);
-            
-            return textIni + textEnd;
+            from = Math.Clamp(from - 1, 0, name.Length - 1);
+            to = Math.Clamp(to - 1, from, name.Length - 1);
+            return name.Remove(from, to - from + 1);
         }
     }
 }
