@@ -1,16 +1,15 @@
 # <img src="csRenamer.svg" alt="icon" width="50"/> csRenamer
 
-**csRenamer** is a Windows desktop application built with WPF and .NET 8.0, designed for batch renaming files with ease. It provides a flexible and user-friendly graphical interface for renaming files using patterns, substitutions, insertions, deletions, and more — all with instant preview.
+**csRenamer** is a cross-platform desktop application for batch renaming files. It provides a flexible graphical interface for renaming files using patterns, substitutions, insertions, deletions, and more — all with instant preview.
 
-This project is a C#/.NET 8.0 clone of [pyRenamer](https://github.com/tfree87/pyRenamer), recreated using Windows-native technology to bring the same powerful renaming functionality to the Windows ecosystem with a modern UI.
+This project is a C#/.NET 8.0 reimplementation of [pyRenamer](https://github.com/tfree87/pyRenamer), originally built with WPF and now being migrated to [Avalonia UI](https://avaloniaui.net/) for cross-platform support (Windows, macOS, Linux).
 
 ![screenshot](Screenshot.png)
 
 ## Features
 
-csRenamer will support the following features:
-- Keep or change file extensions during rename
-- Rename files based on patterns (e.g., rename `1-a.txt` → `a-1.txt` using `{#}-{X}.txt`)
+- Rename files based on patterns (e.g., `1-a.txt` → `a-1.txt` using `{#}-{X}.txt`)
+- Regex-based renaming
 - Insert characters at specific positions
 - Delete characters from specified positions
 - Replace matching characters or sequences
@@ -18,48 +17,58 @@ csRenamer will support the following features:
 - Change capitalization (UPPERCASE, lowercase, Title Case)
 - Replace or remove dots, dashes, and spaces
 - Remove duplicated characters or symbols
+- Counter, date, and random placeholders
 - Manually rename individual files
 - Live preview of all filename changes before applying
+- Keep or change file extensions during rename
 
 ## Requirements
 
-- Windows 10 or later
-- [.NET 8.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-- Optional: Visual Studio 2022+ for development
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
 ## Build and Run
 
-To build and run csRenamer locally:
-
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/csRenamer.git
+git clone https://github.com/MawCeron/csRenamer.git
 cd csRenamer
 
-# Build the project
-dotnet build
+# Build the Avalonia (cross-platform) version
+dotnet build csRenamer.Avalonia
 
-# Run the application
+# Run it
+dotnet run --project csRenamer.Avalonia
+```
+
+To build the original WPF version (Windows only):
+
+```bash
+dotnet build csRenamer
 dotnet run --project csRenamer
 ```
 
-Alternatively, you can open the solution in Visual Studio and press `F5` to run.
+Alternatively, open `csRenamer.sln` in Visual Studio or Rider and press `F5`.
 
-### Installer
+## Project Structure
 
-For regular users, a pre-built Windows installer will be provided — no setup or compilation required. Just download, install, and start renaming!
-
-> The installer will be available on the [Releases](https://github.com/yourusername/csRenamer/releases) page.
+```
+csRenamer/
+├── csRenamer/                  # Original WPF project (Windows only)
+├── csRenamer.Avalonia/         # Avalonia port (cross-platform)
+│   ├── Assets/Icons/           # SVG icons (Lucide + custom)
+│   ├── Converters/             # Value converters
+│   ├── Resources/              # Colors, Styles (ControlThemes)
+│   └── Services/               # Business logic (FileServices, PatternRenamer, etc.)
+└── csRenamer.sln
+```
 
 ## About This Project
 
-csRenamer is a personal reimplementation of the original **pyRenamer** application. It aims to maintain feature parity while taking advantage of the Windows Presentation Foundation (WPF) framework for a polished and responsive user experience. It’s built for users who want to perform complex batch renaming without relying on command-line tools.
+csRenamer is a personal reimplementation of the original **pyRenamer** application. It maintains feature parity while using modern .NET and Avalonia UI for a cross-platform experience. Built for users who want to perform complex batch renaming without relying on command-line tools.
 
 ## Future Plans
 
-Some upcoming features under consideration:
 - Music and image file renaming using metadata (ID3, EXIF, etc.)
 - Drag-and-drop file support
-- Regex-based renaming
-- Dark mode and UI themes
+- Dark mode theme
 - Multi-language UI (localization)
