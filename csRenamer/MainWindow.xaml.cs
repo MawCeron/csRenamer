@@ -150,7 +150,7 @@ namespace csRenamer
                         if (insertRadioButton.IsChecked == true)
                         {
                             if (atEndCheckbox.IsChecked == true)
-                                newName = AnotherRenamers.InsertAt(name, insertText.Text, 0);
+                                newName = AnotherRenamers.InsertAt(name, insertText.Text, name.Length);
                             else
                                 newName = AnotherRenamers.InsertAt(name, insertText.Text, insertAtNumeric.Value);
                         }
