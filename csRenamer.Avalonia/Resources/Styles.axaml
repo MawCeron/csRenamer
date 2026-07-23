@@ -1,0 +1,210 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Tool Buttons -->
+    <ControlTheme x:Key="ToolButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="3">
+                    <Image Source="{TemplateBinding Content}"
+                           Height="16" Width="16"
+                           Stretch="Fill"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonHover}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonPressed}"/>
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="CloseButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="3">
+                    <Image Source="{TemplateBinding Content}"
+                           Height="12" Width="12"
+                           Stretch="Fill"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonHover}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonPressed}"/>
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="QuestionButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="3">
+                    <Image Source="{TemplateBinding Content}"
+                           Height="24" Width="24"
+                           Stretch="Fill"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonHover}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonPressed}"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- Normal Buttons -->
+    <ControlTheme x:Key="ButtonWithText" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}"
+                        CornerRadius="5">
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="2">
+                        <Image Source="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                               Width="12" Height="12"
+                               Stretch="Uniform"
+                               Margin="0,0,4,0"/>
+                        <ContentPresenter VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonHover}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonPressed}"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- Button Issue -->
+    <ControlTheme x:Key="ButtonIssue" TargetType="Button">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}"
+                        CornerRadius="5">
+                    <ContentPresenter HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonPressed}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonHover}"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- Button groups -->
+    <ControlTheme x:Key="ButtonTop" TargetType="Button">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1,1,1,0"
+                        Padding="{TemplateBinding Padding}"
+                        CornerRadius="5,5,0,0">
+                    <ContentPresenter HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonPressed}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonHover}"/>
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonBottom" TargetType="Button">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}"
+                        CornerRadius="0,0,5,5">
+                    <ContentPresenter HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonPressed}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border">
+            <Setter Property="Background" Value="{StaticResource ButtonHover}"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- DataGrid -->
+    <ControlTheme x:Key="DataGrid" TargetType="DataGrid">
+        <Setter Property="BorderBrush" Value="#44292D32"/>
+        <Setter Property="GridLinesVisibility" Value="Vertical"/>
+        <Setter Property="VerticalGridLinesBrush" Value="#44292D32"/>
+    </ControlTheme>
+
+    <!-- Disabled combo box -->
+    <ControlTheme x:Key="DisabledComboBoxStyle" TargetType="ComboBox">
+        <Setter Property="Foreground" Value="{StaticResource MainText}"/>
+        <Style Selector="^:disabled">
+            <Setter Property="Foreground" Value="{StaticResource SecondaryText}"/>
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>
