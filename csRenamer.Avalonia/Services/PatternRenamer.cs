@@ -110,8 +110,8 @@ namespace csRenamer.Avalonia.Services
 
         private static string ReplaceDirectoyPlaceHolders(string input, string originalPath)
         {
-            string directoryName = Path.GetFileName(Path.GetDirectoryName(originalPath));
-            return input.Replace("{dir}", directoryName);
+            string? directoryName = Path.GetFileName(Path.GetDirectoryName(originalPath));
+            return input.Replace("{dir}", directoryName ?? string.Empty);
         }
 
         private static string ReplaceRandomPlaceHolders(string input)

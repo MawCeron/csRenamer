@@ -1,5 +1,6 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svg="clr-namespace:Avalonia.Svg.Skia;assembly=Svg.Controls.Skia.Avalonia"
         x:Class="csRenamer.Avalonia.Views.AboutWindow"
         Title="About csRenamer" Height="390" Width="300"
         Background="{StaticResource Background}"
@@ -9,7 +10,7 @@
     <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*">
 
         <Image Grid.Row="0"
-               Source="avares://csRenamer.Avalonia/Assets/Icons/csRenamer.svg"
+               Source="{SvgImage avares://csRenamer.Avalonia/Assets/Icons/csRenamer.svg}"
                Height="120" />
 
         <TextBlock Grid.Row="1" Text="csRenamer"
@@ -25,42 +26,42 @@
                    Foreground="{StaticResource ThirdText}"
                    HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
-        <Button Grid.Row="4" Style="{StaticResource ButtonIssue}" Margin="10,0"
+        <Button Grid.Row="4" Theme="{StaticResource ButtonIssue}" Margin="10,0"
                 Click="Issue_Click">
             <Grid ColumnDefinitions="*,Auto">
                 <TextBlock Text="Report an issue" FontSize="14" FontWeight="Medium"
                            HorizontalAlignment="Left" Margin="8,5,8,6"
                            Foreground="{StaticResource ThirdText}"/>
                 <Image Grid.Column="1"
-                       Source="avares://csRenamer.Avalonia/Assets/Icons/github.svg"
+                       Source="{SvgImage avares://csRenamer.Avalonia/Assets/Icons/github.svg}"
                        Height="20" Width="20" Margin="0,0,8,0"
                        VerticalAlignment="Center"/>
             </Grid>
         </Button>
 
-        <Button Grid.Row="5" Style="{StaticResource ButtonTop}" Margin="10,10,10,0"
+        <Button Grid.Row="5" Theme="{StaticResource ButtonTop}" Margin="10,10,10,0"
                 Click="Credits_Click">
             <Grid ColumnDefinitions="*,Auto">
                 <TextBlock Text="Credits" FontSize="14" FontWeight="Medium"
                            HorizontalAlignment="Left" Margin="8,5,8,6"
                            Foreground="{StaticResource ThirdText}"/>
                 <Image Grid.Column="1"
-                       Source="avares://csRenamer.Avalonia/Assets/Icons/chevron-right.svg"
+                       Source="{SvgImage avares://csRenamer.Avalonia/Assets/Icons/chevron-right.svg}"
                        Height="16" Width="16" Margin="0,0,8,0"
                            VerticalAlignment="Center"/>
             </Grid>
         </Button>
 
-        <Button Grid.Row="6" Style="{StaticResource ButtonBottom}" Margin="10,0,10,0"
+        <Button Grid.Row="6" Theme="{StaticResource ButtonBottom}" Margin="10,0,10,0"
                 Click="License_Click">
             <Grid ColumnDefinitions="*,Auto">
                 <TextBlock Text="License" FontSize="14" FontWeight="Medium"
                            HorizontalAlignment="Left" Margin="8,5,8,6"
                            Foreground="{StaticResource ThirdText}"/>
                 <Image Grid.Column="1"
-                       Source="avares://csRenamer.Avalonia/Assets/Icons/chevron-right.svg"
+                       Source="{SvgImage avares://csRenamer.Avalonia/Assets/Icons/chevron-right.svg}"
                        Height="16" Width="16" Margin="0,0,8,0"
-                       VerticalAlignment="Center"/>
+                           VerticalAlignment="Center"/>
             </Grid>
         </Button>
 

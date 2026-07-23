@@ -1,5 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:csRenamer.Avalonia.Converters"
              x:Class="csRenamer.Avalonia.App"
              RequestedThemeVariant="Default">
 
@@ -14,6 +15,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="avares://csRenamer.Avalonia/Resources/Colors.axaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <converters:BooleanNegationConverter x:Key="NegateBool"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
