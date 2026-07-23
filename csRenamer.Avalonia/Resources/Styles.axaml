@@ -207,6 +207,36 @@
             <Setter Property="Foreground" Value="{StaticResource SecondaryText}"/>
         </Style>
     </ControlTheme>
+    <!-- Primary (accent) button -->
+    <ControlTheme x:Key="PrimaryButton" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Accent}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Accent}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Padding="{TemplateBinding Padding}"
+                        CornerRadius="5">
+                    <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border">
+            <Setter Property="Background" Value="{StaticResource AccentHover}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentHover}"/>
+        </Style>
+        <Style Selector="^:pressed /template/ Border">
+            <Setter Property="Background" Value="{StaticResource AccentPressed}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentPressed}"/>
+        </Style>
+    </ControlTheme>
+
     </Styles.Resources>
 
 </Styles>
