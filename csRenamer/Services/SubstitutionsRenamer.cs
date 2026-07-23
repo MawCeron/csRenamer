@@ -5,33 +5,23 @@ namespace csRenamer.Services
 {
     public class SubstitutionsRenamer
     {
+        private static readonly (string from, string to)[] SpaceReplacements =
+        [
+            (" ", "_"),  // 0: spaces to underscores
+            ("_", " "),  // 1: underscores to spaces
+            (" ", "."),  // 2: spaces to dots
+            (".", " "),  // 3: dots to spaces
+            (" ", "-"),  // 4: spaces to dashes
+            ("-", " "),  // 5: dashes to spaces
+            (" ", ""),   // 6: remove spaces
+        ];
+
         public static string ReplaceSpaces(string name, int mode)
-        {            
-            switch (mode)
-            {
-                case 0: // Replace spaces with underscores
-                    return name.Replace(" ", "_");
-                    
-                case 1: // Replace undescores with spaces
-                    return name.Replace("_", " ");
-                    
-                case 2: // Replace spaces with dots
-                    return name.Replace(" ", ".");
-                    
-                case 3: // Replace dots with spaces
-                    return name.Replace(".", " ");
-                    
-                case 4: // Replace spaces with dashes
-                    return name.Replace(" ", "-");
-                    
-                case 5: // Replace dashes with spaces
-                    return name.Replace("-", " ");
-                    
-                case 6: // Remove spaces
-                    return name.Replace(" ", "");
-                default:
-                    return name;
-            }
+        {
+            if (mode < 0 || mode >= SpaceReplacements.Length)
+                return name;
+            var (from, to) = SpaceReplacements[mode];
+            return name.Replace(from, to);
         }
 
         public static string ReplaceWith(string name, string original, string replaced)
